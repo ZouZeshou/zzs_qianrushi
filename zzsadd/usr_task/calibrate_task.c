@@ -35,6 +35,8 @@ void StartTask08(void const * argument)
 			taskEXIT_CRITICAL();
 			cali_flag = 0;
 		}
+		else
+			s_infantry.mode = START_GAMING;
     osDelay(5);
   }
 
