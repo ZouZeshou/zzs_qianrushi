@@ -17,7 +17,7 @@ void StartTask04(void const * argument)
 		calculate_serial_pid_current(&s_trans_motor,\
 																 &s_trans_pos_pid,\
 																 &s_trans_spd_pid);
-		if(s_infantry.mode == START_GAMING)
+		if(s_infantry.mode == NORMAL)
 		{
 			Can_SendMsg(&hcan1,0x200,s_fric_l_motor.out_current,\
 														 s_fric_r_motor.out_current,\

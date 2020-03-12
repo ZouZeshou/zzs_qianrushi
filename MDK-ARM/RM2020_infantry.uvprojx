@@ -732,6 +732,71 @@
               <FileType>1</FileType>
               <FilePath>..\zzsadd\bsp\drv_judgesystem.c</FilePath>
             </File>
+            <File>
+              <FileName>drv_adc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\bsp\drv_adc.h</FilePath>
+            </File>
+            <File>
+              <FileName>drv_buzzer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\bsp\drv_buzzer.h</FilePath>
+            </File>
+            <File>
+              <FileName>drv_can.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\bsp\drv_can.h</FilePath>
+            </File>
+            <File>
+              <FileName>drv_dbus.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\bsp\drv_dbus.h</FilePath>
+            </File>
+            <File>
+              <FileName>drv_flash.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\bsp\drv_flash.h</FilePath>
+            </File>
+            <File>
+              <FileName>drv_io.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\bsp\drv_io.h</FilePath>
+            </File>
+            <File>
+              <FileName>drv_judgesystem.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\bsp\drv_judgesystem.h</FilePath>
+            </File>
+            <File>
+              <FileName>drv_keyboard.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\bsp\drv_keyboard.h</FilePath>
+            </File>
+            <File>
+              <FileName>drv_nuc_interface.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\bsp\drv_nuc_interface.h</FilePath>
+            </File>
+            <File>
+              <FileName>drv_timer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\bsp\drv_timer.h</FilePath>
+            </File>
+            <File>
+              <FileName>drv_uart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\bsp\drv_uart.h</FilePath>
+            </File>
+            <File>
+              <FileName>oled.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\bsp\oled.h</FilePath>
+            </File>
+            <File>
+              <FileName>oledfont.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\bsp\oledfont.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -761,6 +826,31 @@
               <FileName>usr_math.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\zzsadd\algorithm\usr_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>CRC.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\algorithm\CRC.h</FilePath>
+            </File>
+            <File>
+              <FileName>kalman_filter.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\algorithm\kalman_filter.h</FilePath>
+            </File>
+            <File>
+              <FileName>pid.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\algorithm\pid.h</FilePath>
+            </File>
+            <File>
+              <FileName>ramp.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\algorithm\ramp.h</FilePath>
+            </File>
+            <File>
+              <FileName>usr_math.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\algorithm\usr_math.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -797,6 +887,31 @@
               <FileType>4</FileType>
               <FilePath>..\zzsadd\DSP\arm_cortexM4lf_math.lib</FilePath>
             </File>
+            <File>
+              <FileName>ahrs.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\Imu\ahrs.h</FilePath>
+            </File>
+            <File>
+              <FileName>AHRS_middleware.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\Imu\AHRS_middleware.h</FilePath>
+            </File>
+            <File>
+              <FileName>drv_imu.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\Imu\drv_imu.h</FilePath>
+            </File>
+            <File>
+              <FileName>IST8310_reg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\Imu\IST8310_reg.h</FilePath>
+            </File>
+            <File>
+              <FileName>mpu6500_reg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\Imu\mpu6500_reg.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -832,6 +947,31 @@
               <FileType>5</FileType>
               <FilePath>..\zzsadd\modules\global.h</FilePath>
             </File>
+            <File>
+              <FileName>chassis.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\modules\chassis.h</FilePath>
+            </File>
+            <File>
+              <FileName>gimbal.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\modules\gimbal.h</FilePath>
+            </File>
+            <File>
+              <FileName>infantry.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\modules\infantry.h</FilePath>
+            </File>
+            <File>
+              <FileName>shoot.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\modules\shoot.h</FilePath>
+            </File>
+            <File>
+              <FileName>vision.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\modules\vision.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -851,6 +991,21 @@
               <FileName>STMGood.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\zzsadd\Personal\STMGood.c</FilePath>
+            </File>
+            <File>
+              <FileName>ANO_DT.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\Personal\ANO_DT.h</FilePath>
+            </File>
+            <File>
+              <FileName>delay.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\Personal\delay.h</FilePath>
+            </File>
+            <File>
+              <FileName>STMGood.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\Personal\STMGood.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -891,6 +1046,41 @@
               <FileName>calibrate_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\zzsadd\usr_task\calibrate_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>calibrate_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\usr_task\calibrate_task.h</FilePath>
+            </File>
+            <File>
+              <FileName>chassis_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\usr_task\chassis_task.h</FilePath>
+            </File>
+            <File>
+              <FileName>debug_printf_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\usr_task\debug_printf_task.h</FilePath>
+            </File>
+            <File>
+              <FileName>gimbal_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\usr_task\gimbal_task.h</FilePath>
+            </File>
+            <File>
+              <FileName>imu_update_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\usr_task\imu_update_task.h</FilePath>
+            </File>
+            <File>
+              <FileName>monitor_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\usr_task\monitor_task.h</FilePath>
+            </File>
+            <File>
+              <FileName>Shoot_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\usr_task\Shoot_task.h</FilePath>
             </File>
           </Files>
         </Group>

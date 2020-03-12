@@ -85,7 +85,7 @@ void UpdateIMU(struct ahrs_sensor *sensor)
 	pitch_angle_buff = imunow3 + cnt3*360.0 - imu_first3;
 	s_yaw_motor.gyro_angle = yaw_angle_buff;
 	s_yaw_motor.gyro_speed = (int16_t)(INS_gyro[2]*57.3f);
-	s_yaw_motor.anglespd_times_ago = Get_Data_SeveralTimes_Ago(s_vision_info.valid_fps.d_16,s_yaw_motor.gyro_speed);
+	s_yaw_motor.anglespd_times_ago = Get_Data_SeveralTimes_Ago(s_vision_info.valid_fps,s_yaw_motor.gyro_speed);
 	s_fps.board_imu++;
 	/* the data you need finally,just use them by following format
 	Gyroscope.gx = (int16_t)(INS_gyro[0]*57.3f);

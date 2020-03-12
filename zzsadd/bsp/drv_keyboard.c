@@ -1,5 +1,4 @@
 #include "drv_keyboard.h"
-#define LONG_PRESS_TIME  			 1000
 s_keymouse_t s_keymouse;
 
 /**
@@ -38,63 +37,62 @@ void get_keymouse_data(s_keymouse_t *s_key,RC_Ctl_t s_rc,uint16_t long_time)
  * @return None
  * @attention None
  */
-void get_key_state(e_kb_state_t *key_state,\
-									 uint8_t key_value,\
+void get_key_state(e_kb_state_t *sta,\
+									 uint8_t key,\
 									 uint16_t *cnt,\
 									 uint16_t long_time)
 {
-	switch(*key_state)
-	{
-		case KEY_RELEASE:
-		{
-			if(key_value)
-			{
-				*key_state = KEY_PRESS_ONCE;
-			}
-			else
-			{
-				*key_state = KEY_RELEASE;
-			}
-			break;
-		}
-		case KEY_PRESS_ONCE:
-		{
-			if(key_value)
-			{
-				*key_state = KEY_PRESS_DOWN;
-			}
-			else
-			{
-				*key_state = KEY_RELEASE;
-			}
-			break;
-		}
-		case KEY_PRESS_DOWN:
-		{
-			if(key_value)
-			{
-				if(*cnt++ > long_time)
-				{
-					*key_state = KEY_PRESS_LONG;
-				}
-			}
-			else
-			{
+	switch (*sta)
+  {
+    case KEY_RELEASE:
+    {
+      if (key)
+        *sta = KEY_WAIT_EFFECTIVE;
+      else
+        *sta = KEY_RELEASE;
+    }break;
+    
+    case KEY_WAIT_EFFECTIVE:
+    {
+      if (key)
+        *sta = KEY_PRESS_ONCE;
+      else
+        *sta = KEY_RELEASE;
+    }break;
+    
+    
+    case KEY_PRESS_ONCE:
+    {
+      if (key)
+      {
+        *sta = KEY_PRESS_DOWN;
 				*cnt = 0;
-				*key_state = KEY_RELEASE;
-			}
-			break;
-		}
-		case KEY_PRESS_LONG:
-		{
-			*cnt = 0;
-			if(key_value==0)
-			{
-				*key_state = KEY_RELEASE;
-			}
-			break;
-		}
-		default:
-			break;
-	}
+      }
+      else
+        *sta = KEY_RELEASE;
+    }break;
+    
+    case KEY_PRESS_DOWN:
+    {
+      if (key)
+      {
+         if (*cnt++ > long_time)
+            *sta = KEY_PRESS_LONG;
+      }
+      else
+        *sta = KEY_RELEASE;
+    }break;
+    
+    case KEY_PRESS_LONG:
+    {
+      if (!key)
+      {
+        *sta = KEY_RELEASE;
+      }
+    }break;
+    
+    default:
+    break;
+      
+  }
 }

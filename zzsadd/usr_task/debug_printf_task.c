@@ -36,7 +36,7 @@ void StartTask07(void const * argument)
 			}
 			count = 0;
 		}
-	  send_data_to_nuc(2,20);
+	  send_data_to_nuc(20);
 		printf_debug_data(4);
     osDelay(5);
   }
@@ -99,7 +99,7 @@ void printf_chassis(void)
 	printf("chas_gyro ang %.2f spd %.2f\r\n",s_chassis.gyro_angle,s_chassis.gyro_spd);
 	printf("gim Vx %d Vy %d W %d\r\n",s_chassis.gim_Vx,s_chassis.gim_Vy,s_chassis.gim_W);
 	printf("chassis Vx %d Vy %d W %d\r\n",s_chassis.Vx,s_chassis.Vy,s_chassis.W);
-	printf("sin90 %.2f cos90 %.2f\r\n",sinf(90*DEGREE_RAD),cosf(90*DEGREE_RAD));
+	printf("sin90 %.2f cos90 %.2f\r\n",sinf(90*ANGLE_RAD),cosf(90*ANGLE_RAD));
 //	printf("sin90 %.2f cos90 %.2f\r\n",sinf(90.0f),cosf(90.0f));
 }
 /**
@@ -191,10 +191,10 @@ void print_vision(void)
 					s_vision_info.CenterX.f,\
 					s_vision_info.CenterY.f,\
 					s_vision_info.CenterZ.f);
-	printf("issmall = %d,transratio %.2f,validfps %d\r\n",\
-					s_vision_info.is_small_armor.d_16,\
-					s_vision_info.trans_ratio.f,\
-					s_vision_info.valid_fps.d_16);
+	printf("isbig = %d,transratio %.2f,validfps %d\r\n",\
+					s_vision_info.is_big_armor,\
+					s_vision_info.fan_angle.f,\
+					s_vision_info.valid_fps);
 	printf("center kal x %.2f y %.2f\r\n",\
 					s_vision_info.centerX_kf,\
 					s_vision_info.centerY_kf);
@@ -204,7 +204,7 @@ void print_vision(void)
 	printf("pitch_vision_spd_pid err %.2f out %.2f\r\n",\
 					s_pitch_vision_spd_pid.err,s_pitch_vision_spd_pid.out);
 	printf("yawcurrent %d pitchcurrent %d\r\n",s_yaw_motor.out_current,s_pitch_motor.out_current);
-	printf("pitch_comp_angle %.2f\r\n",s_vision_info.pit_comp_angle);
+	printf("pitch_comp %.2f\r\n",s_vision_info.pit_comp);
 	printf("target_spd %.2f\r\n",s_vision_info.target_abs_spd_kf);
-	printf("yaw_comp_coefficient %.4f",yaw_comp_coef);
+	printf("yaw_comp_coefficient %.4f",s_vision_info.yaw_comp_coef);
 }

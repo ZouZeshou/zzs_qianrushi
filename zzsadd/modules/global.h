@@ -3,6 +3,8 @@
 #include "stm32f4xx.h"
 #include "stdint.h"
 #include "drv_dbus.h"
+/***************** debug *********************/
+#define NO_JUDGE_SYSTEM 1
 /***************** for robot *****************/
 #define ROBOT_ID  1
 /************ rc and key constant **********************/
@@ -48,6 +50,7 @@ typedef struct
 }s_motor_data_t ;
 typedef struct 
 {
+	uint8_t  real_id;
 	uint16_t real_heat;
 	uint16_t heat_reduce;
 	uint16_t max_heat;
@@ -86,7 +89,8 @@ extern uint8_t g_gimbal_info_src ;
 #define TRAVEL                  29487.6f//8191*36/10
 #define ENCODE_ANGLE            0.0439506f //360/8191
 #define RPM_DPS                 6 //1/60*360
-#define DEGREE_RAD              0.0174532f //3.1415926/180
+#define ANGLE_RAD               0.0174532f //3.1415926/180
+#define RAD_ANGLE               57.29578f
 #define S_MANUAL  							0
 #define	S_AUTO 									1
 #define S_CLEAR_BULLETS         2
@@ -94,12 +98,13 @@ extern uint8_t g_gimbal_info_src ;
 extern uint8_t g_shoot_mode ;
 /****definition of vision***************/
 #define V_NOT_USE          0
-#define V_FANWHEEL         1
-#define V_ROBOT            2
-#define V_GYRO             3
-#define V_ABNORMAL         4
-#define V_LOSE             5
-#define V_CATCH    	       6
+#define V_BIG_FAN          1
+#define V_SMALL_FAN        2
+#define V_ROBOT            3
+#define V_GYRO             4
+#define V_ABNORMAL         5
+#define V_LOSE             6
+#define V_CATCH    	       7
 extern uint8_t g_vision_mode ;
 extern uint8_t g_vision_state ;
 

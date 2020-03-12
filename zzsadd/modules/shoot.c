@@ -317,7 +317,7 @@ int shoot_by_heat(uint16_t *energy,uint8_t heat_reduce,uint8_t max_heat)
 	}
 	else
 	{
-		if(g_vision_mode == V_FANWHEEL)
+		if(g_vision_mode == V_BIG_FAN||g_vision_mode == V_SMALL_FAN)
 		{
 			s_trans_motor.frequency = 3;
 		}

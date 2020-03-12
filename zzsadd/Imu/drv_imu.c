@@ -28,6 +28,15 @@
 #include "iwdg.h"
 #include "stdlib.h"
 #include "drv_flash.h"
+static int16_t gx_offset;
+static int16_t gy_offset;
+static int16_t gz_offset;
+static int16_t ax_offset;
+static int16_t ay_offset;
+static int16_t az_offset;
+static int16_t mx_offset;
+static int16_t my_offset;
+static int16_t mz_offset;
 int VAL_MIN(int a,int b)
 {	
 	return ((a) < (b) ? (a):(b));
@@ -309,25 +318,32 @@ uint8_t mpu_device_init(void)
   }
 	//printf("ist before\r\n");
   ist8310_init();
+	imu_temp_ctrl_init();
 	//zzsadd
 	//printf("imu get offset\r\n");	
 	HAL_IWDG_Refresh(&hiwdg);
-	imu_temp_ctrl_init();
-	get_offset_from_cali();
+	get_mpu_gyro_offset();
+	HAL_IWDG_Refresh(&hiwdg);
+	get_mpu_acc_offset();
+	HAL_IWDG_Refresh(&hiwdg);
+	get_ist_mag_offset();
+	HAL_IWDG_Refresh(&hiwdg);
+	mpu_data.ax_offset = ax_offset;
+	mpu_data.ay_offset = ay_offset;
+	mpu_data.az_offset = az_offset;
+	mpu_data.gx_offset = gx_offset;
+	mpu_data.gy_offset = gy_offset;
+	mpu_data.gz_offset = gz_offset;
+	mpu_data.mx_offset = mx_offset;
+	mpu_data.my_offset = my_offset;
+	mpu_data.mz_offset = mz_offset;
+//	get_offset_from_cali();
 	printf("imu initial success\r\n");
 	//
   return 0;
 }
 /***************** imu calibrate function start ... ******************************/
-static int16_t gx_offset;
-static int16_t gy_offset;
-static int16_t gz_offset;
-static int16_t ax_offset;
-static int16_t ay_offset;
-static int16_t az_offset;
-static int16_t mx_offset;
-static int16_t my_offset;
-static int16_t mz_offset;
+
 static void get_mpu_gyro_offset(void)
 {
   int i;

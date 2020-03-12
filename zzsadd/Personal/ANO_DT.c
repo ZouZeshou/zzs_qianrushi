@@ -70,7 +70,7 @@ void ANO_DT_Data_Exchange(void)
 		f.send_status = 0;
 		ANO_DT_Send_Status(s_vision_info.target_abs_spd_kf,\
 											 s_vision_info.adjustX,\
-											 yaw_comp*90,0,0,0);
+											 s_vision_info.yaw_comp*90,0,0,0);
 	}	
 /////////////////////////////////////////////////////////////////////////////////////
 	else if(f.send_senser)

@@ -15,15 +15,11 @@ pid_t s_yaw_pos_pid={0};
 pid_t s_yaw_spd_pid={0};
 pid_t s_pitch_pos_pid={0};
 pid_t s_pitch_spd_pid={0};
-pid_t s_yaw_vision_spd_pid={0};
-pid_t s_pitch_vision_spd_pid={0};
 s_motor_data_t s_yaw_motor = {YAW_ID,0};
 s_motor_data_t s_pitch_motor = {PIT_ID,0};
 /*************debug variable**************/
 int g_yaw_pid_debug = 0;//debug mode or not
 int g_pitch_pid_debug = 0;
-int g_yaw_vision_debug = 0;
-int g_pitch_vision_debug = 0;
 /**
  * @brief initialize the parameter of gimbal
  * @param None
@@ -37,28 +33,14 @@ void gimbal_param_init(void)
 	pid_struct_init(&s_yaw_spd_pid,28000,20000,100,3.0f,0);//100 3 0
 	pid_struct_init(&s_pitch_pos_pid,400,10,40,0,0);//60 0 0
 	pid_struct_init(&s_pitch_spd_pid,28000,20000,100,3.0f,0);//100 3.0 0
-	pid_struct_init(&s_yaw_vision_spd_pid,28000,20000,100.0f,2.0f,0.0f);
-	pid_struct_init(&s_pitch_vision_spd_pid,28000,20000,80.0f,2.0f,0.0f);
 	#elif ROBOT_ID == 2
-	pid_struct_init(&s_yaw_pos_pid,400,10,25,0,0);//60 0 0
-	pid_struct_init(&s_yaw_spd_pid,28000,20000,100,3.0f,0);//100 3 0
-	pid_struct_init(&s_pitch_pos_pid,400,10,40,0,0);//60 0 0
-	pid_struct_init(&s_pitch_spd_pid,28000,20000,100,3.0f,0);//100 3.0 0
-	pid_struct_init(&s_yaw_vision_spd_pid,28000,20000,100.0f,2.0f,0.0f);
-	pid_struct_init(&s_pitch_vision_spd_pid,28000,20000,80.0f,2.0f,0.0f);
+
 	#elif ROBOT_ID == 3
-	pid_struct_init(&s_yaw_pos_pid,400,10,25,0,0);//60 0 0
-	pid_struct_init(&s_yaw_spd_pid,28000,20000,100,3.0f,0);//100 3 0
-	pid_struct_init(&s_pitch_pos_pid,400,10,40,0,0);//60 0 0
-	pid_struct_init(&s_pitch_spd_pid,28000,20000,100,3.0f,0);//100 3.0 0
-	pid_struct_init(&s_yaw_vision_spd_pid,28000,20000,100.0f,2.0f,0.0f);
-	pid_struct_init(&s_pitch_vision_spd_pid,28000,20000,80.0f,2.0f,0.0f);
+
 	#endif
 	s_yaw_motor.target_ang = 0.0f;
 	s_yaw_motor.reduction_ratio = 1.0f;
 	s_pitch_motor.reduction_ratio = 1.0f;
-	g_gimbal_move_mode = G_MANUAL;
-	g_gimbal_info_src = G_GYRO;
 }
 /**
  * @brief reset the pid parameter when you debug
@@ -78,14 +60,6 @@ void gimbal_pid_param_reset(void)
 		pid_struct_init(&s_pitch_pos_pid,400,10,P,I,D);
 		pid_struct_init(&s_pitch_spd_pid,28000,20000,p,i,d);
 	}
-	if(g_yaw_vision_debug)
-	{
-		pid_struct_init(&s_yaw_vision_spd_pid,28000,20000,P,I,D);
-	}
-	if(g_pitch_vision_debug)
-	{
-		pid_struct_init(&s_pitch_vision_spd_pid,28000,20000,P,I,D);
-	}
 }
 
 /**
@@ -99,33 +73,38 @@ void switch_gimbal_mode(uint8_t *gimbal_mode,\
 												s_motor_data_t *pitch,\
 												s_motor_data_t *yaw)
 {
-	static uint8_t last_state;
 	/********* switch mode from key***************/
-	if(GIMBAL_UNLOCK)
-		*gimbal_mode = G_MANUAL;
-	else if(GIMBAL_LOCK)
-		*gimbal_mode = G_LOCK;
+	if(GIMBAL_LOCK_SW)
+	{
+		if(*gimbal_mode==G_LOCK)
+			*gimbal_mode = G_MANUAL;
+		else
+			*gimbal_mode = G_LOCK;
+	}
 	
   if(vision_state == V_CATCH &&\
 		g_vision_mode != V_NOT_USE &&\
 		(!MANUAL_ATTACK) &&\
 		(*gimbal_mode != G_LOCK))
 	{
-		*gimbal_mode = G_AUTO;
+		*gimbal_mode = G_AUTO;	
+	}
+	if(*gimbal_mode == G_AUTO)
+	{
+		gimbal_param_init();
 		yaw->target_ang = yaw->gyro_angle;
 		pitch->target_pos = pitch->tol_pos;
 		if(pitch->tol_pos < pitch->min_pos)
 		{
-			*gimbal_mode = G_MANUAL;	
 			pitch->target_pos = pitch->min_pos;
+			*gimbal_mode = G_MANUAL;	
 		}
 		else 	if(pitch->tol_pos > pitch->max_pos)
 		{	
-			*gimbal_mode = G_MANUAL;	
 			pitch->target_pos = pitch->max_pos;
-		}	
-	}
-	last_state = *gimbal_mode;
+			*gimbal_mode = G_MANUAL;			
+		}
+	}		
 }
 /**
  * @brief gimbal control
@@ -135,6 +114,7 @@ void switch_gimbal_mode(uint8_t *gimbal_mode,\
  */
 void gimbal_ctrl(void)
 {
+	static uint8_t last_mode;
 	switch(g_gimbal_move_mode)
 	{
 		case G_MANUAL:
@@ -165,18 +145,23 @@ void gimbal_ctrl(void)
 		}
 		case G_LOCK:
 		{
-			s_yaw_motor.target_pos = s_yaw_motor.tol_pos;
-			s_yaw_motor.target_ang = s_yaw_motor.gyro_angle;
-			s_pitch_motor.target_pos = s_pitch_motor.tol_pos;
-			s_pitch_motor.target_pos = float_constrain(s_pitch_motor.target_pos,\
+			if(last_mode!=G_LOCK)
+			{
+				s_yaw_motor.target_pos = s_yaw_motor.tol_pos;
+			  s_yaw_motor.target_ang = s_yaw_motor.gyro_angle;
+				s_pitch_motor.target_pos = s_pitch_motor.tol_pos;
+			  s_pitch_motor.target_pos = float_constrain(s_pitch_motor.target_pos,\
 																								 s_pitch_motor.min_pos,\
 																								 s_pitch_motor.max_pos);
+			}
 			calculate_serial_pid_current(&s_yaw_motor,&s_yaw_pos_pid,&s_yaw_spd_pid);
 			calculate_serial_pid_current(&s_pitch_motor,&s_pitch_pos_pid,&s_pitch_spd_pid);
+			break;
 		}
 		default:
 			break;
 	}
+	last_mode = g_gimbal_move_mode;
 }
 /**
  * @brief get the target position of yaw motor

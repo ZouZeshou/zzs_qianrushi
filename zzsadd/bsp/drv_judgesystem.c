@@ -8,7 +8,7 @@
 #include "drv_judgesystem.h"
 #include "drv_can.h"
 #include "string.h"
-
+#include "global.h"
 data_to_judge_t															ToJudge_Data;
 
 ext_game_state_t 														Judge_GameState;
@@ -39,13 +39,14 @@ void judgesystem_param_init(void)
 	memset(&Judge_ShootData,0,sizeof(ext_shoot_data_t));
 	memset(&Judge_StudentInfoHeader,0,sizeof(ext_student_interactive_header_data_t));
 	memset(&Judge_ClientData,0,sizeof(client_custom_data_t));
-	Judge_GameRobotState.robot_id = 5;
-	Judge_GameRobotState.max_HP = 200;
-	Judge_GameRobotState.remain_HP = 200;
-	Judge_GameRobotState.robot_level = 0;
-	
-	Judge_PowerHeatData.chassis_power_buffer = 60.0;
-	
+	if(NO_JUDGE_SYSTEM)
+	{
+		s_judge.real_id = 3;
+		s_judge.real_heat = 0;
+		s_judge.max_power = 80;
+		s_judge.max_spd = 30;
+		s_judge.power_buffer = 60;
+	}
 }
 
 /* send the data to the judge-board by using the can-bus, 

@@ -36,7 +36,7 @@ void StartTask03(void const * argument)
 																	 &s_chassis_motor[1].out_current,\
 																	 &s_chassis_motor[2].out_current,\
 																	 &s_chassis_motor[3].out_current);
-		if(s_infantry.mode == START_GAMING)
+		if(s_infantry.mode == NORMAL)
 		{
 			Can_SendMsg(&hcan2,0x200,s_chassis_motor[0].out_current,\
 														 s_chassis_motor[1].out_current,\

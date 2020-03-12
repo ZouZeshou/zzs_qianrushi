@@ -6,6 +6,7 @@
 #include "shoot.h"
 #include "drv_can.h"
 #include "iwdg.h"
+#define LONG_PRESS_TIME  			 1000
 #if ROBOT_ID == 1
 #define TRANS_COMP_CONST 0.09f
 #elif  ROBOT_ID == 2
@@ -22,7 +23,7 @@ void StartTask02(void const * argument)
 		task_start_time = xTaskGetTickCount();
 		taskENTER_CRITICAL();
 		/**** global task******/
-		get_keymouse_data(&s_keymouse,RC_Ctl,1000/5);
+		get_keymouse_data(&s_keymouse,RC_Ctl,LONG_PRESS_TIME/5);
 		rc_mode_switch();
 		/**** vision task******/
 		vision_pid_pamar_reset();
@@ -32,7 +33,7 @@ void StartTask02(void const * argument)
 		gimbal_pid_param_reset();/*for debug*/
 		switch_gimbal_mode(&g_gimbal_move_mode,g_vision_state,&s_pitch_motor,&s_yaw_motor);
 		gimbal_ctrl();
-		if(s_infantry.mode == START_GAMING)
+		if(s_infantry.mode == NORMAL)
 		{
 			Can_SendMsg(&hcan1,0x1FF,0,s_pitch_motor.out_current,0,0);
 			Can_SendMsg(&hcan2,0x1FF,s_yaw_motor.out_current + s_trans_motor.out_current*TRANS_COMP_CONST,0,0,0);

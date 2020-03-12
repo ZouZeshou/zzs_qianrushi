@@ -37,7 +37,7 @@ uint8_t vision_data_buff[23];
  * @return  
  * @attention  
  */
-void send_data_to_nuc(uint8_t mode,int loopsforsend)
+void send_data_to_nuc(int loopsforsend)
 {
 	static int tic;
 	tic++;
@@ -46,11 +46,9 @@ void send_data_to_nuc(uint8_t mode,int loopsforsend)
 		tic = 0;
 		uint8_t data[7];
 		data[0] = 0xA0;
-		//data[1] = Judge_GameRobotState.robot_id;
-		//data[2] = mode;
-		data[1] = 11;
-		data[2] = 2;
-		data[3] = s_vision_info.fanwheel_dir;		
+		data[1] = s_judge.real_id;
+		data[2] = g_vision_mode;
+		data[3] = 0;		
 		Append_CRC8_Check_Sum(data,5);
 		data[5] = '\r';                      
 		data[6] = '\n';
@@ -177,24 +175,24 @@ void vision_decode_handle(uint8_t *databuff)
 		s_vision_info.CenterZ.uc[2] = databuff[11];
 		s_vision_info.CenterZ.uc[3] = databuff[12];
 		
-		s_vision_info.valid_fps.uc[0] = databuff[13];
-		s_vision_info.valid_fps.uc[1] = databuff[14];
-		s_vision_info.is_small_armor.uc[0] = databuff[15];
-		s_vision_info.is_small_armor.uc[1] = databuff[16];	
+		s_vision_info.fps = databuff[13];
+		s_vision_info.valid_fps = databuff[14];
+		s_vision_info.is_find_target = databuff[15];
+		s_vision_info.is_big_armor = databuff[16];	
 		
-		s_vision_info.trans_ratio.uc[0] = databuff[17];
-		s_vision_info.trans_ratio.uc[0] = databuff[18];
-		s_vision_info.trans_ratio.uc[0] = databuff[19];
-		s_vision_info.trans_ratio.uc[0] = databuff[20];
+		s_vision_info.fan_angle.uc[0] = databuff[17];
+		s_vision_info.fan_angle.uc[0] = databuff[18];
+		s_vision_info.fan_angle.uc[0] = databuff[19];
+		s_vision_info.fan_angle.uc[0] = databuff[20];
 				
-		if(g_vision_mode == V_FANWHEEL)
+		if(g_vision_mode == V_BIG_FAN||g_vision_mode == V_SMALL_FAN)
 		{
 			s_vision_info.fanwheel_centerX_kf = kalman1_filter(&s_fanwheel_centerX_kal,s_vision_info.CenterX.f);
 			s_vision_info.fanwheel_centerY_kf = kalman1_filter(&s_fanwheel_centerY_kal,s_vision_info.CenterY.f);
 		}
 		else//attack robot
 		{
-			if((s_vision_info.last_center_x != 0)  && (s_vision_info.CenterX.f != 0) &&\
+			if((s_vision_info.last_center_x != 0)&&s_vision_info.is_find_target&&\
 				  fabs(s_vision_info.CenterX.f  - s_vision_info.last_center_x) < 150.0f)
 			{//message is right and catch target
 					get_target_spd();

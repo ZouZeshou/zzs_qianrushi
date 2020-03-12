@@ -21,22 +21,20 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.6.0
 Dialog DLL:      TCM.DLL V1.36.1.0
  
 <h2>Project:</h2>
-D:\respotory\RM2020_infantry\MDK-ARM\RM2020_infantry.uvprojx
-Project File Date:  01/28/2020
+D:\respotory\zzs_qianrushi\MDK-ARM\RM2020_infantry.uvprojx
+Project File Date:  03/12/2020
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\program files\keil5\ARM\ARMCC\Bin'
 Build target 'RM2020_infantry'
 compiling vision.c...
-..\zzsadd\modules\vision.c(144): warning:  #550-D: variable "catch_target_cnt"  was set but never used
-  	static uint8_t catch_target_cnt = 0;
-..\zzsadd\modules\vision.c: 1 warning, 0 errors
-compiling drv_nuc_interface.c...
-..\zzsadd\bsp\drv_nuc_interface.c(76): warning:  #550-D: variable "receive_full_data"  was set but never used
-  	uint8_t receive_full_data = 0;
-..\zzsadd\bsp\drv_nuc_interface.c: 1 warning, 0 errors
+..\zzsadd\modules\vision.c(358): warning:  #177-D: variable "y"  was declared but never referenced
+          float t, y = 0.0;
+..\zzsadd\modules\vision.c(468): warning:  #1-D: last line of file ends without a newline
+  }
+..\zzsadd\modules\vision.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=72100 RO-data=6376 RW-data=1076 ZI-data=27308  
+Program Size: Code=73984 RO-data=6524 RW-data=1076 ZI-data=27300  
 ".\RM2020_infantry\RM2020_infantry.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
@@ -60,7 +58,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.2.0
-Build Time Elapsed:  00:00:12
+Build Time Elapsed:  00:00:08
 </pre>
 </body>
 </html>

@@ -63,3 +63,4 @@
 .\rm2020_infantry\drv_dbus.o: D:\program files\keil5\ARM\ARMCC\Bin\..\include\stdio.h
 .\rm2020_infantry\drv_dbus.o: ..\zzsadd\Personal\STMGood.h
 .\rm2020_infantry\drv_dbus.o: D:\program files\keil5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\rm2020_infantry\drv_dbus.o: D:\program files\keil5\ARM\ARMCC\Bin\..\include\string.h

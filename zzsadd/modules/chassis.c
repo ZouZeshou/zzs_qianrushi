@@ -56,8 +56,6 @@ void chassis_param_init(void)
 	pid_struct_init(&s_follow_spd_pid,8000,3000,6.0f,0,0);//20
 	pid_struct_init(&s_swing_pid,7000,3000,4,0.01f,2);
 	#endif
-	g_chassis_move_mode = C_FOLLOW;
-	g_chassis_power_mode = C_NORMAL;
 	s_chassis.power_ctrl.max_power = 40;/* unit:w */
 }
 /**
@@ -245,10 +243,10 @@ void transform_chassis_spd(s_chassis_t *s_chas)
 	{
 		case C_FOLLOW:
 		{
-			s_chas->Vx = s_chas->gim_Vx * cosf(s_chas->angle_diff * DEGREE_RAD) -\
-									 s_chas->gim_Vy * sinf(s_chas->angle_diff * DEGREE_RAD);
-			//s_chas->Vy = s_chas->gim_Vx * sinf(s_chas->angle_diff * DEGREE_RAD) +\
-									 s_chas->gim_Vy * cosf(s_chas->angle_diff * DEGREE_RAD);
+			s_chas->Vx = s_chas->gim_Vx * cosf(s_chas->angle_diff * ANGLE_RAD) -\
+									 s_chas->gim_Vy * sinf(s_chas->angle_diff * ANGLE_RAD);
+			//s_chas->Vy = s_chas->gim_Vx * sinf(s_chas->angle_diff * ANGLE_RAD) +\
+									 s_chas->gim_Vy * cosf(s_chas->angle_diff * ANGLE_RAD);
 			pid_calculate(&s_follow_pos_pid,0,-s_chas->angle_diff);
 			s_chas->W = pid_calculate(&s_follow_spd_pid,s_chas->gyro_spd,s_follow_pos_pid.out);
 			break;
@@ -278,10 +276,10 @@ void transform_chassis_spd(s_chassis_t *s_chas)
 				default:
 					break;
 			}
-			s_chas->Vx = s_chas->gim_Vx * cosf(s_chas->angle_diff * DEGREE_RAD) -\
-									 s_chas->gim_Vy * sinf(s_chas->angle_diff * DEGREE_RAD);
-			s_chas->Vy = s_chas->gim_Vx * sinf(s_chas->angle_diff * DEGREE_RAD) +\
-									 s_chas->gim_Vy * cosf(s_chas->angle_diff * DEGREE_RAD);
+			s_chas->Vx = s_chas->gim_Vx * cosf(s_chas->angle_diff * ANGLE_RAD) -\
+									 s_chas->gim_Vy * sinf(s_chas->angle_diff * ANGLE_RAD);
+			s_chas->Vy = s_chas->gim_Vx * sinf(s_chas->angle_diff * ANGLE_RAD) +\
+									 s_chas->gim_Vy * cosf(s_chas->angle_diff * ANGLE_RAD);
 			int chassis_V = sqrt(s_chas->Vx * s_chas->Vx + s_chas->Vy * s_chas->Vy);
 			if(chassis_V > (fabs(s_chas->W * SCALE_V_W)))
 			{
@@ -314,10 +312,10 @@ void transform_chassis_spd(s_chassis_t *s_chas)
 					break;
 				}
 			}
-			s_chas->Vx = s_chas->gim_Vx * cos(s_chas->angle_diff * DEGREE_RAD) -\
-									 s_chas->gim_Vy * sin(s_chas->angle_diff * DEGREE_RAD);
-			s_chas->Vy = s_chas->gim_Vx * sin(s_chas->angle_diff * DEGREE_RAD) +\
-									 s_chas->gim_Vy * cos(s_chas->angle_diff * DEGREE_RAD);
+			s_chas->Vx = s_chas->gim_Vx * cos(s_chas->angle_diff * ANGLE_RAD) -\
+									 s_chas->gim_Vy * sin(s_chas->angle_diff * ANGLE_RAD);
+			s_chas->Vy = s_chas->gim_Vx * sin(s_chas->angle_diff * ANGLE_RAD) +\
+									 s_chas->gim_Vy * cos(s_chas->angle_diff * ANGLE_RAD);
 			break;
 		}
 		case C_LOCK:

@@ -183,7 +183,7 @@ void mahony_ahrs_update(struct ahrs_sensor *sensor, struct attitude *atti)
 	}
 	s_yaw_motor.gyro_angle = imunow2 + cnt2*360.0 - imu_first2;
 	s_yaw_motor.gyro_speed = (int16_t)(sensor->wz * 57.3f);
-	s_yaw_motor.anglespd_times_ago = Get_Data_SeveralTimes_Ago(s_vision_info.valid_fps.d_16,s_yaw_motor.gyro_speed);
+	s_yaw_motor.anglespd_times_ago = Get_Data_SeveralTimes_Ago(s_vision_info.valid_fps,s_yaw_motor.gyro_speed);
 	s_fps.board_imu++;
 //Gyroscope.angleroll  = imunow1 + cnt1*360.0 - imu_first1;
 //Gyroscope.angleyaw =  imunow2 + cnt2*360.0 - imu_first2;
@@ -298,7 +298,7 @@ void mahony_ahrs_updateIMU(struct ahrs_sensor *sensor, struct attitude *atti)
 	}
 	s_yaw_motor.gyro_angle = imunow2 + cnt2*360.0 - imu_first2;
 	s_yaw_motor.gyro_speed = (int16_t)(sensor->wz * 57.3f);
-	s_yaw_motor.anglespd_times_ago = Get_Data_SeveralTimes_Ago(s_vision_info.valid_fps.d_16,s_yaw_motor.gyro_speed);
+	s_yaw_motor.anglespd_times_ago = Get_Data_SeveralTimes_Ago(s_vision_info.valid_fps,s_yaw_motor.gyro_speed);
 	s_fps.board_imu++;
 //Gyroscope.angleroll  = imunow1 + cnt1*360.0 - imu_first1;
 //Gyroscope.angleyaw =  imunow2 + cnt2*360.0 - imu_first2;

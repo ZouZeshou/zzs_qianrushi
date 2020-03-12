@@ -16,10 +16,10 @@
 #include "drv_flash.h"
 #include "oled.h"
 #include "drv_adc.h"
-s_infantry_t s_infantry;
-s_judgesystem_t  s_judge;
+s_infantry_t s_infantry = {0};
+s_judgesystem_t  s_judge = {0};
 /**
- * @brief Enable Can1 and Can2(对can1和can2进行初始化)
+ * @brief Enable the infantry system
  * @param None
  * @return None
  * @attention None
@@ -27,6 +27,7 @@ s_judgesystem_t  s_judge;
 void infantry_init(void)
 {	
 	s_infantry.state = INFANTRY_INITIALIZING;
+	s_infantry.mode = NORMAL;
 	/*************** imu and oled  adc *****************************************/
 	mpu_device_init();
 	oled_init();
@@ -38,6 +39,7 @@ void infantry_init(void)
 	gimbal_param_init();
 	chassis_param_init();
 	vision_param_init();
+	judgesystem_param_init();
 	/***************** io and pwm timer *************************************/
 	pwm_init();
 	io_init();
@@ -50,8 +52,6 @@ void infantry_init(void)
 	CAN_Enable(&hcan1);
 	CAN_Enable(&hcan2);
 	/******** state init *********************************/
-	judgesystem_param_init();
-	s_infantry.mode = START_GAMING;
 	s_infantry.state = INFANTRY_RUN_WELL;
 	play_music(1);
 }
@@ -146,7 +146,7 @@ void rc_mode_switch(void)
 					g_chassis_move_mode =   C_FOLLOW;
 					g_gimbal_move_mode  =   G_MANUAL;
 					g_shoot_mode        =   S_MANUAL;
-					g_vision_mode	      =   V_FANWHEEL;				
+					g_vision_mode	      =   V_BIG_FAN;				
 					break;
 				}
 				case MID:

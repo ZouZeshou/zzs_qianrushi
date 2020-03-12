@@ -53,33 +53,5 @@ typedef struct RC RC_Ctl_t;
 extern RC_Ctl_t RC_Ctl;
 void get_dbus_data (void);
 void dubs_data_init(void);
-/*************** key funtion define************/
-//      direction  key
-#define FORWARD_NORMAL    	 (RC_Ctl.key.bit.W)
-#define FORWARD_SLOWLY    	 (RC_Ctl.key.bit.Q)
-#define FORWARD_VERY_SLOWLY  (RC_Ctl.key.bit.E)
-#define BACK        				 (RC_Ctl.key.bit.S)
-#define LEFT       					 (RC_Ctl.key.bit.A)
-#define RIGHT      					 (RC_Ctl.key.bit.D)
-#define LEFT_SLOWLY					 (RC_Ctl.key.bit.Z)
-#define RIGHT_SLOWLY				 (RC_Ctl.key.bit.X)
-//      speed      key
-#define FAST_SPD   					 (RC_Ctl.key.bit.SHIFT)
 
-//      function   key or mouse operate	
-#define OPEN_MAGAZINE				 (RC_Ctl.key.bit.R)
-#define CLOSE_MAGAZINE       (RC_Ctl.key.bit.SHIFT && RC_Ctl.key.bit.R)
-#define	SHIFT_CTRL	   			 (RC_Ctl.key.bit.SHIFT)
-#define MANUAL_ATTACK				 (RC_Ctl.mouse.r)
-#define MANUAL_SHOOT				 (RC_Ctl.mouse.l_press)
-#define ROBOT_ATTACK         (RC_Ctl.key.bit.Z)
-#define GYRO_ATTACK					 (RC_Ctl.key.bit.X)
-#define FANWHEEL_ATTACK      (RC_Ctl.key.bit.C)
-#define GIMBAL_LOCK          (RC_Ctl.key.bit.F)
-#define GIMBAL_UNLOCK        (RC_Ctl.key.bit.SHIFT && RC_Ctl.key.bit.F)
-#define CHASSIS_SW           (RC_Ctl.key.bit.V) 
-/**********************************************************************************
- * bit      :15   14   13   12   11   10   9   8   7   6     5     4   3   2   1
- * keyboard : V    C    X	  Z    G    F    R   E   Q  CTRL  SHIFT  D   A   S   W
- **********************************************************************************/
 #endif

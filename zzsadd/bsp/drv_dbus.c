@@ -8,6 +8,7 @@
 #include "usart.h"
 #include "drv_uart.h"
 #include "stdlib.h"
+#include "string.h"
 RC_Ctl_t RC_Ctl = {0};
 /**
  * @brief Receive data from remote device
@@ -17,6 +18,7 @@ RC_Ctl_t RC_Ctl = {0};
  */
 void dubs_data_init(void)
 {
+	memset(&RC_Ctl,0,sizeof(RC_Ctl_t));
 	RC_Ctl.rc.ch0 = 1024;
 	RC_Ctl.rc.ch1 = 1024;
 	RC_Ctl.rc.ch2 = 1024;
