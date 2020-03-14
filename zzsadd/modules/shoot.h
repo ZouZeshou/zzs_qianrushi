@@ -26,6 +26,6 @@ void get_fric_spd_from_realspd(float real_spd,\
 															 s_motor_data_t * s_fric_l,\
 															 s_motor_data_t * s_fric_r);
 int shoot_once(void);
-int Just_Fire(bool is_shoot, uint8_t time_diff);
+int fire(uint8_t time_diff);
 int shoot_by_heat(uint16_t *energy,uint8_t heat_reduce,uint8_t max_heat);
 #endif

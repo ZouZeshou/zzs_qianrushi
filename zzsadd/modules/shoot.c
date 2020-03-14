@@ -79,16 +79,16 @@ void shoot_pid_param_reset(void)
  */
 void switch_shoot_mode(uint8_t *shoot_mode)
 {
+	static uint8_t last_mode;
 	if(g_gimbal_move_mode  == G_AUTO)
 		*shoot_mode = S_AUTO;
-	else
+	else if((last_mode==G_AUTO)&&(g_gimbal_move_mode!=G_AUTO))
 		*shoot_mode = S_MANUAL;
-	
+	last_mode = g_gimbal_move_mode;
 	if(CLOSE_MAGAZINE)
 		close_bullet_magazine();
 	else if(OPEN_MAGAZINE)
 		open_bullet_magazine();
-	
 }
 /**
  * @brief shoot control
@@ -102,8 +102,7 @@ void shoot_ctrl(void)
 	{
 		case S_MANUAL:
 		{
-			s_fric_l_motor.target_speed = 6650;
-			s_fric_r_motor.target_speed = -s_fric_l_motor.target_speed;
+			get_fric_spd_from_realspd(s_judge.max_spd,&s_fric_l_motor,&s_fric_r_motor);
 			if(MANUAL_SHOOT)
 				shoot_by_heat(&s_judge.real_heat,s_judge.heat_reduce,s_judge.max_heat);
 			break;
@@ -326,16 +325,16 @@ int shoot_by_heat(uint16_t *energy,uint8_t heat_reduce,uint8_t max_heat)
 			/* 自瞄按左键 高爆发 */
 			if((!MANUAL_ATTACK) && MANUAL_SHOOT)
 			{
-				if(energyuse < 140)
+				if(energyuse < 100)
 					s_trans_motor.frequency = energyuse/energyadd;
 				else
 					s_trans_motor.frequency = 20;
 			}
 			else
 				s_trans_motor.frequency = energyuse/energyadd;
-			s_trans_motor.frequency = int_constrain(s_trans_motor.frequency,0,20);
 		}
-		int isshot = Just_Fire(1, 5);//1 : shoot  5 : the running freq of this functiong(Just_Fire)
+		s_trans_motor.frequency = int_constrain(s_trans_motor.frequency,0,20);
+		int isshot = fire(5);//5 : the running freq of this functiong(Fire)
 		if(isshot) 
 			*energy += energyadd;
 		return isshot;
@@ -349,7 +348,7 @@ int shoot_by_heat(uint16_t *energy,uint8_t heat_reduce,uint8_t max_heat)
  * @return 1--shoot success  0--shoot fail
  * @attention None
  */
-int Just_Fire(bool is_shoot, uint8_t time_diff)
+int fire(uint8_t time_diff)
 {
 	static int count = 0;
 	if((fabs(s_fric_l_spd_pid.err) < 1000.0f)&&\
@@ -359,10 +358,7 @@ int Just_Fire(bool is_shoot, uint8_t time_diff)
 	}
 	else
 		count = 0;
-	if(!is_shoot)   
-		return 0;
-	if(is_shoot &&\
-		(count*time_diff > (int)(1000.0f/s_trans_motor.frequency))&&\
+	if((count*time_diff > (int)(1000.0f/s_trans_motor.frequency))&&\
 		(s_trans_motor.frequency != 0))
 	{
 		int is_shoot_over = shoot_once();
@@ -380,14 +376,10 @@ int Just_Fire(bool is_shoot, uint8_t time_diff)
  */
 int shoot_once(void)
 {
-	static uint32_t count = 0;
 	if(fabs(s_trans_motor.target_pos - s_trans_motor.tol_pos ) < TRAVEL)
 	{
 		s_trans_motor.target_pos += TRAVEL;
-		count = 0;
 		return 1;
 	}
-	else
-		count ++;
 	return 0;
 }

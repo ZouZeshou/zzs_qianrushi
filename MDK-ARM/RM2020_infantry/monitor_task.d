@@ -70,3 +70,4 @@
 .\rm2020_infantry\monitor_task.o: ..\zzsadd\bsp\drv_buzzer.h
 .\rm2020_infantry\monitor_task.o: ..\zzsadd\bsp\oled.h
 .\rm2020_infantry\monitor_task.o: ../Inc/spi.h
+.\rm2020_infantry\monitor_task.o: D:\program files\keil5\ARM\ARMCC\Bin\..\include\string.h

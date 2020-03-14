@@ -16,10 +16,10 @@ typedef struct{
 	.out = 0,\
 		} \
 
-#define RAMP_SLOW_INIT \
+#define RAMP_FAST_INIT \
 { \
 	.count = 30, \
-	.scale = 250, \
+	.scale = 150, \
 	.out = 0,\
 		} \
 

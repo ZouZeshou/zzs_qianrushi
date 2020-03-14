@@ -7,19 +7,21 @@
 #include "stdlib.h"
 #include "drv_can.h"
 #include "drv_judgesystem.h"
+/******************debug*******************/
+#define NO_POWER_LIMIT         1//解除功率限制
 /***********definition of struct and enum*****/
 uint8_t g_chassis_move_mode = C_LOCK;
-uint8_t g_chassis_power_mode = C_NORMAL;
+uint8_t g_chassis_power_mode = C_NO_CAP;
 pid_t s_chassis_spd_pid[4]={0};
 pid_t s_follow_pos_pid={0};
 pid_t s_follow_spd_pid={0};
 pid_t s_swing_pid = {0};
 s_motor_data_t s_chassis_motor[4] = {0};
 s_chassis_t s_chassis = {0};
-ramp_t s_ramp_Vx = RAMP_DEFAULT_INIT;
-ramp_t s_ramp_Vy = RAMP_DEFAULT_INIT;
-ramp_t s_ramp_channelx = RAMP_SLOW_INIT;
-ramp_t s_ramp_channely = RAMP_SLOW_INIT;
+ramp_t s_ramp_Vx = RAMP_FAST_INIT;
+ramp_t s_ramp_Vy = RAMP_FAST_INIT;
+ramp_t s_ramp_channelx = RAMP_FAST_INIT;
+ramp_t s_ramp_channely = RAMP_FAST_INIT;
 int chassis_wheel_pid_debug = 0;
 int chassis_follow_pid_debug = 0;
 int chassis_swing_pid_debug = 0;
@@ -102,10 +104,8 @@ void switch_chassis_mode(uint8_t *chassis_mode,\
 	s_chas->angle_diff = (YAWMID - s_yaw.back_position)*ENCODE_ANGLE;
 	s_chas->angle_diff = loop_float_constrain(s_chas->angle_diff, -180.0f, 180.0f);
 	/****** switch the mode from keyboard**********/ 
-	if(s_key.V_state == KEY_PRESS_ONCE)
-	{
+	if(CHASSIS__GYRO_SW&&(*chassis_mode != C_LOCK))
 		chas_mode_sw = 1;
-	}
 	if(chas_mode_sw)
 	{
 		if(*chassis_mode == C_FOLLOW)
@@ -132,8 +132,8 @@ void switch_chassis_mode(uint8_t *chassis_mode,\
  */
 void get_spd_from_keyboard(RC_Ctl_t s_rc,s_chassis_t *s_chas)
 {
-	int16_t Vx_buffer = 0;
-	int16_t Vy_buffer = 0;
+	int16_t Vx_add_spd = 0;
+	int16_t Vy_add_spd = 4000;
 	if(abs(s_rc.rc.ch1-1024) < 10 && abs(s_rc.rc.ch0-1024) < 10)
 	{
 		ramp_init(&s_ramp_channelx);
@@ -145,55 +145,24 @@ void get_spd_from_keyboard(RC_Ctl_t s_rc,s_chassis_t *s_chas)
 	{
 		s_chas->gim_Vx = (s_rc.rc.ch1-1024)*CHANNEL_X_CONST * ramp_cal(&s_ramp_channelx);
 		s_chas->gim_Vy = (s_rc.rc.ch0-1024)*CHANNEL_Y_CONST * ramp_cal(&s_ramp_channely);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       s_chas->gim_Vy = (s_rc.rc.ch0-1024)*CHANNEL_Y_CONST * ramp_cal(&s_ramp_channely);
-	}
-	
+	}	
 	/************** choose the move speed constant**************/
-	if(FORWARD_SLOWLY)
+	if(FORWARD_VERY_SLOWLY)
 	{
-		Vx_buffer = Q_WSCONST;
-		Vy_buffer = Q_ADCONST;
-	}
-	else if(FORWARD_VERY_SLOWLY)
-	{
-		Vx_buffer = E_WSCONST;
-		Vy_buffer = E_ADCONST;		
+		Vx_add_spd = E_WSCONST;		
 	}
 	else
 	{
-		/*if(chassis.can_use_cap == 1){
-			Vx_buffer = MOVE_WSCONST;
-			Vy_buffer = MOVE_ADCONST;
-		}
-		else{
-			
-		}*/
-		Vx_buffer = MOVE_WSCONST;
-		Vy_buffer = MOVE_ADCONST;
+		Vx_add_spd = MOVE_WSCONST;
 	}
 	/************** calculate Vx from keyboard QWES*************/
-	if(FORWARD_NORMAL || FORWARD_SLOWLY || FORWARD_VERY_SLOWLY)
+	if(FORWARD_NORMAL || FORWARD_VERY_SLOWLY)
 	{
-		if((FAST_SPD ))
-		{
-			s_chas->gim_Vx += Vx_buffer;
-			ramp_cal(&s_ramp_Vx);
-		}
-		else
-		{
-			s_chas->gim_Vx += Vx_buffer * ramp_cal(&s_ramp_Vx);
-		}
+			s_chas->gim_Vx += Vx_add_spd * ramp_cal(&s_ramp_Vx);
 	}
 	else if(BACK)
 	{
-		if((FAST_SPD))
-		{
-			s_chas->gim_Vx -= Vx_buffer;
-			ramp_cal(&s_ramp_Vx);
-		}
-		else
-		{
-			s_chas->gim_Vx -= Vx_buffer * ramp_cal(&s_ramp_Vx);
-		}
+			s_chas->gim_Vx -= Vx_add_spd * ramp_cal(&s_ramp_Vx);
 	}
 	else
 	{
@@ -202,33 +171,14 @@ void get_spd_from_keyboard(RC_Ctl_t s_rc,s_chassis_t *s_chas)
 	/************** calculate Vy from keyboard ADZX*************/
 	if(RIGHT)
 	{
-			s_chas->gim_Vy += Vy_buffer;
+			s_chas->gim_Vy += Vy_add_spd;
 	}
 	else if(LEFT)
 	{ 
-			s_chas->gim_Vy -= Vy_buffer;
+			s_chas->gim_Vy -= Vy_add_spd;
 	}
-	else if(s_rc.key.bit.Z)
-	{
-			s_chas->gim_Vy -= Vy_buffer;
-			s_chas->gim_Vy /= 7;
-	}
-	else if(LEFT_SLOWLY)
-	{
-			s_chas->gim_Vy += Vy_buffer;
-			s_chas->gim_Vy /= 7;
-	}
-	else
-	{
-		ramp_init(&s_ramp_Vx);
-	}
-	/*if((Remote.key.val & KEY_SHIFT) && (Remote.key.val & KEY_W)){
-		usecap = 1;
-	}else{
-		usecap = 0;
-	}*/
-	s_chas->gim_Vx=int16_constrain(s_chas->gim_Vx,-8000,8000);
-	s_chas->gim_Vy=int16_constrain(s_chas->gim_Vy,-8000,8000);
+	s_chas->gim_Vx = int16_constrain(s_chas->gim_Vx,-8000,8000);
+	s_chas->gim_Vy = int16_constrain(s_chas->gim_Vy,-8000,8000);
 }
 /**
  * @brief transform_chassis_spd
@@ -245,7 +195,7 @@ void transform_chassis_spd(s_chassis_t *s_chas)
 		{
 			s_chas->Vx = s_chas->gim_Vx * cosf(s_chas->angle_diff * ANGLE_RAD) -\
 									 s_chas->gim_Vy * sinf(s_chas->angle_diff * ANGLE_RAD);
-			//s_chas->Vy = s_chas->gim_Vx * sinf(s_chas->angle_diff * ANGLE_RAD) +\
+			s_chas->Vy = s_chas->gim_Vx * sinf(s_chas->angle_diff * ANGLE_RAD) +\
 									 s_chas->gim_Vy * cosf(s_chas->angle_diff * ANGLE_RAD);
 			pid_calculate(&s_follow_pos_pid,0,-s_chas->angle_diff);
 			s_chas->W = pid_calculate(&s_follow_spd_pid,s_chas->gyro_spd,s_follow_pos_pid.out);
@@ -253,29 +203,9 @@ void transform_chassis_spd(s_chassis_t *s_chas)
 		}
 		case C_ROTATE:
 		{
-			switch(s_chas->power_ctrl.max_power)
-			{
-				case 50:
-				{
-					s_chas->W = 4000;
-					s_chas->angle_diff += 2;
-					break;
-				}
-				case 70:
-				{
-					s_chas->W = 6000;
-					s_chas->angle_diff += 6.5f;
-					break;
-				}
-				case 100:
-				{
-					s_chas->W = 8000;
-					s_chas->angle_diff += 10.0f;
-					break;
-				}
-				default:
-					break;
-			}
+			s_chas->W = s_chas->power_ctrl.max_power * 10;
+			s_chas->W = int16_constrain(s_chas->W,-8000,8000);
+			float angle_add = s_chas->W /1000.0f;
 			s_chas->Vx = s_chas->gim_Vx * cosf(s_chas->angle_diff * ANGLE_RAD) -\
 									 s_chas->gim_Vy * sinf(s_chas->angle_diff * ANGLE_RAD);
 			s_chas->Vy = s_chas->gim_Vx * sinf(s_chas->angle_diff * ANGLE_RAD) +\
@@ -405,34 +335,40 @@ void calculate_power_param(s_power_control_t *s_power,int16_t spd1,int16_t spd2,
 {
 	static int16_t spd_sum = 0;
 	spd_sum = abs(spd1) + abs(spd2) + abs(spd3) + abs(spd4);
-	if(g_chassis_power_mode==C_NORMAL)
+	if(g_chassis_power_mode==C_NO_CAP)
 	{
-		s_power->max_power = 50;/* unit:w */
-//		s_power->power_spd_scale = 50.0f;
-//		s_power->max_spd = 2000 + s_power->max_power * s_power->power_spd_scale;
-//		s_power->max_spd = int16_constrain(s_power->max_spd,2000,10000);
-//		s_power->min_cur_sum = 1000 + s_power->max_power * 25;
-//		s_power->max_cur_sum = 4000 + s_power->max_power * 200;
-//		if(g_chassis_move_mode==C_ROTATE)
-//		{
-//			s_power->spd_cur_scale = 2.8f;
-//		}
-//		else if(g_chassis_move_mode==C_FOLLOW)
-//		{
-//			s_power->spd_cur_scale = 3.3f;
-//		}
-//		s_power->current_sum = s_power->max_cur_sum - s_power->spd_cur_scale * spd_sum/4.0f ;
-//		s_power->current_sum = float_constrain(s_power->current_sum,s_power->min_cur_sum,s_power->max_cur_sum);
-//		if(Judge_PowerHeatData.chassis_power_buffer < 60)
-//		{
-//			s_power->current_sum = s_power->min_cur_sum + \
-//														 Judge_PowerHeatData.chassis_power_buffer * 200;
-//		}
-		s_power->max_spd = 8000;
-		s_power->current_sum = 35000;
+		if(NO_POWER_LIMIT)
+		{
+			s_power->max_spd = 8000;
+		  s_power->current_sum = 35000;
+		}
+		else
+		{
+			s_power->max_power = s_judge.max_power;/* unit:w */
+			s_power->power_spd_scale = 50.0f;
+			s_power->max_spd = 2000 + s_power->max_power * s_power->power_spd_scale;
+			s_power->max_spd = int16_constrain(s_power->max_spd,2000,10000);
+			s_power->min_cur_sum = 1000 + s_power->max_power * 25;
+			s_power->max_cur_sum = 4000 + s_power->max_power * 200;
+			if(g_chassis_move_mode==C_ROTATE)
+			{
+				s_power->spd_cur_scale = 2.8f;
+			}
+			else if(g_chassis_move_mode==C_FOLLOW)
+			{
+				s_power->spd_cur_scale = 3.3f;
+			}
+			s_power->current_sum = s_power->max_cur_sum - s_power->spd_cur_scale * spd_sum/4.0f ;
+			s_power->current_sum = float_constrain(s_power->current_sum,s_power->min_cur_sum,s_power->max_cur_sum);
+			if(s_judge.power_buffer < 60)
+			{
+				s_power->current_sum = s_power->min_cur_sum + s_judge.power_buffer * 200;
+			}
+		}
 	}
 	else if(g_chassis_power_mode==C_USE_CAP)
 	{
-		
+		s_power->max_spd = 8000;
+		s_power->current_sum = 35000;
 	}
 }

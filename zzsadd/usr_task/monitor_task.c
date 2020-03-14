@@ -5,12 +5,13 @@
 #include "drv_buzzer.h"
 #include "infantry.h"
 #include "oled.h"
+#include "string.h"
 #define OFFLINE_COUNT     2
 #define OFFLINE_THRESHOLD1	850
 #define OFFLINE_THRESHOLD2	200
 #define OFFLINE_THRESHOLD3	100
-s_fps_t 			s_fps;
-s_sys_err_t 	s_sys_err;
+s_fps_t 			s_fps={0};
+s_sys_err_t 	s_sys_err={0};
 /* standard value 
 	1000,//chassis motor LF
 	1000,//chassis motor RF
@@ -30,19 +31,31 @@ void StartTask06(void const * argument)
 {
   for(;;)
   {
-		static uint16_t count = 0;
-		 count ++;
-		 if(count > 1)
-		 {
-			 if(s_infantry.state == INFANTRY_RUN_WELL)
-					Sys_Running_Well();
-			 else if(s_infantry.state == INFANTRY_INITIALIZING)
-					Sys_initializing();
-			 else if(s_infantry.state == INFANTRY_ALARM)
-					SysModule_Offline();
-			 count = 0;
-		 }
-		 Sys_Alarming();
+		static uint8_t count;
+		if(count++ > 7)
+		{
+			if(s_infantry.state != INFANTRY_INITIALIZING)
+			{
+				calculate_fps_per_second(200, &s_fps);
+				judge_whether_module_offline(s_fps,&s_sys_err);
+				//show_fps_data();
+				memset(&s_fps, 0, sizeof(s_fps_t));
+			}
+			count = 0;
+		}
+		static uint16_t count1 = 0;
+		count1 ++;
+		if(count1 > 1)
+		{
+			if(s_infantry.state == INFANTRY_RUN_WELL)
+				Sys_Running_Well();
+			else if(s_infantry.state == INFANTRY_INITIALIZING)
+				Sys_initializing();
+			else if(s_infantry.state == INFANTRY_ALARM)
+				SysModule_Offline();
+			count1 = 0;
+		}
+		Sys_Alarming();
 
     oled_LOGO();
 		 
@@ -112,7 +125,8 @@ void judge_whether_module_offline(s_fps_t fps,s_sys_err_t *sys_err)
 	if(sys_err->trans.is_err || \
 		 sys_err->pitch.is_err || \
 	   sys_err->yaw.is_err || \
-	   /*sys_err.nuc.is_err || sys_err.judge.is_err */
+	   sys_err->nuc.is_err ||
+	   sys_err->judge.is_err ||
 	   sys_err->chassis[0].is_err || \
 		 sys_err->chassis[1].is_err || \
 		 sys_err->chassis[2].is_err || \
@@ -233,72 +247,76 @@ void Sys_initializing(void)
 }
 
 /* 按照优先级顺序显示LED，当有离线发生，10个LED熄灭， 按照离线顺序显示 若离线，对应的LED亮起 对应关系	如下*/
-/* ********
-*  LED_RED  				dbus
-*  LED_GREEN  			gimbal-imu
-*	 H							  board_imu
-*	 G								chas-imu
-*  F								yaw
-*  E                pitch
-*	 D								trigger
-*	 C								chassis-motor
-*	 B								nuc
-*	 A								judge
+/* ********朝着电源输入端为LED_A
+*  LED_A  				      chassis[0]
+*  LED_B  			        chassis[1]
+*	 LED_C							  chassis[2]
+*	 LED_D								chassis[3]
+*  LED_E								yaw
+*  LED_F                pitch
+*	 LED_G								trigger
+*	 LED_H								chassis_imu
+*	 LED_GREEN						judge_system
+*	 LED_RED							nuc
 */
 void SysModule_Offline(void)
 {
-	if(s_sys_err.dbus.is_err)
+	if(s_sys_err.nuc.is_err)
 		HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
 	else
 		HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
 	
-	if(s_sys_err.pitch_imu.is_err)
+	if(s_sys_err.judge.is_err)
 		HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_RESET);
 	else
 		HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_SET);
 	
-	if(s_sys_err.board_imu.is_err)
+	if(s_sys_err.chassis[0].is_err)
 		HAL_GPIO_WritePin(LED_A_GPIO_Port, LED_A_Pin, GPIO_PIN_RESET);
 	else
 		HAL_GPIO_WritePin(LED_A_GPIO_Port, LED_A_Pin, GPIO_PIN_SET);
 	
-	if(s_sys_err.chas_imu.is_err)
+	if(s_sys_err.chassis[1].is_err)
 		HAL_GPIO_WritePin(LED_B_GPIO_Port, LED_B_Pin, GPIO_PIN_RESET);
 	else
 		HAL_GPIO_WritePin(LED_B_GPIO_Port, LED_B_Pin, GPIO_PIN_SET);
 	
-	if(s_sys_err.yaw.is_err)
+	if(s_sys_err.chassis[2].is_err)
 		HAL_GPIO_WritePin(LED_C_GPIO_Port, LED_C_Pin, GPIO_PIN_RESET);
 	else
 		HAL_GPIO_WritePin(LED_C_GPIO_Port, LED_C_Pin, GPIO_PIN_SET);
 	
-	if(s_sys_err.pitch.is_err)
+	if(s_sys_err.chassis[3].is_err)
 		HAL_GPIO_WritePin(LED_D_GPIO_Port, LED_D_Pin, GPIO_PIN_RESET);
 	else
 		HAL_GPIO_WritePin(LED_D_GPIO_Port, LED_D_Pin, GPIO_PIN_SET);
 	
-	if(s_sys_err.trans.is_err)
+	if(s_sys_err.yaw.is_err)
 		HAL_GPIO_WritePin(LED_E_GPIO_Port, LED_E_Pin, GPIO_PIN_RESET);
 	else
 		HAL_GPIO_WritePin(LED_E_GPIO_Port, LED_E_Pin, GPIO_PIN_SET);
 	
-	if(s_sys_err.chassis[0].is_err || s_sys_err.chassis[1].is_err || s_sys_err.chassis[2].is_err || s_sys_err.chassis[3].is_err)
+	if(s_sys_err.pitch.is_err)
 		HAL_GPIO_WritePin(LED_F_GPIO_Port, LED_F_Pin, GPIO_PIN_RESET);
 	else
 		HAL_GPIO_WritePin(LED_F_GPIO_Port, LED_F_Pin, GPIO_PIN_SET);
 	
-	if(s_sys_err.nuc.is_err)
+	if(s_sys_err.trans.is_err)
 		HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_G_Pin, GPIO_PIN_RESET);
 	else
 		HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_G_Pin, GPIO_PIN_SET);
 	
-	if(s_sys_err.judge.is_err)
+	if(s_sys_err.chas_imu.is_err)
 		HAL_GPIO_WritePin(LED_H_GPIO_Port, LED_H_Pin, GPIO_PIN_RESET);
 	else
 		HAL_GPIO_WritePin(LED_H_GPIO_Port, LED_H_Pin, GPIO_PIN_SET);
 }
 
-
+/*响四声-遥控器离线
+*响三声-陀螺仪离线
+*响两声-电机离线
+*响一声-裁判系统或NUC离线
+*/
 void Sys_Alarming(void)
 {
 	if(s_infantry.state == INFANTRY_ALARM)

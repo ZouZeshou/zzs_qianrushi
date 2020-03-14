@@ -191,8 +191,8 @@ void get_target_by_vision(s_vision_t * vision)
 			vision->Pitch_err = (FANWHEEL_CENTER_Y -  vision->CenterY.f)*ENCODE_ANGLE;  
 		else
 			vision->Pitch_err = (FANWHEEL_CENTER_Y -  vision->CenterY.f)*ENCODE_ANGLE + vision->pit_comp;
-		vision->adjustX	= pid_calculate(&s_yaw_fanwheel_pid,vision->CenterX.f,FANWHEEL_CENTER_X);
-		vision->adjustY	= pid_calculate(&s_pitch_fanwheel_pid,vision->CenterY.f,FANWHEEL_CENTER_Y);
+		vision->adjustX	= pid_calculate(&s_yaw_fanwheel_pid,0,vision->Yaw_err);
+		vision->adjustY	= pid_calculate(&s_pitch_fanwheel_pid,0,vision->Pitch_err);
 	}
 	else
 	{
@@ -378,8 +378,8 @@ void fanwheel_shoot_ctr(s_vision_t *vision)//110
 {
 		get_fric_spd_from_realspd(s_judge.max_spd,&s_fric_l_motor,&s_fric_r_motor);	
 		if(vision->last_center_x != 0.0f && vision->CenterX.f != 0.0f&&\
-			(fabs(vision->CenterX.f - FANWHEEL_CENTER_X) < FAN_SHOOT_ERR )&&\
-			(fabs(vision->CenterY.f - FANWHEEL_CENTER_Y) < FAN_SHOOT_ERR))
+			(fabs(vision->Yaw_err) < FAN_SHOOT_ERR )&&\
+			(fabs(vision->Pitch_err) < FAN_SHOOT_ERR))
 		{//catch target and err is small
 			shoot_by_heat(&s_judge.real_heat,s_judge.heat_reduce,s_judge.max_heat);
 		}
@@ -395,9 +395,7 @@ void robot_shoot_ctr(s_vision_t *vision)
 	static float x_err = 0;
 	static float y_err = 0;
 	static float x_spd_err = 0;
-	get_fric_spd_from_realspd(s_judge.max_spd,\
-														&s_fric_l_motor,\
-														&s_fric_r_motor);
+	get_fric_spd_from_realspd(s_judge.max_spd,&s_fric_l_motor,&s_fric_r_motor);
 	x_err = ROBOT_SHOOT_YAW_ERR - (vision->CenterZ.f-1000.0f)/1000.0f;
 	x_err = float_constrain(x_err,ROBOT_SHOOT_YAW_ERR/3.0f,ROBOT_SHOOT_YAW_ERR);
 	y_err = ROBOT_SHOOT_PIT_ERR - (vision->CenterZ.f-1000.0f)/2000.0f;
@@ -420,8 +418,8 @@ void robot_shoot_ctr(s_vision_t *vision)
  */
 void gyro_shoot_ctr(s_vision_t *vision)
 {
-	get_fric_spd_from_realspd(s_judge.max_spd,&s_fric_l_motor,&s_fric_r_motor);
-	shoot_by_heat(&s_judge.real_heat,s_judge.heat_reduce,s_judge.max_heat);
+//	get_fric_spd_from_realspd(s_judge.max_spd,&s_fric_l_motor,&s_fric_r_motor);
+//	shoot_by_heat(&s_judge.real_heat,s_judge.heat_reduce,s_judge.max_heat);
 }
 /******************************** ±£¡Ù £¨Œ¥ π”√ *************************************/
 /**

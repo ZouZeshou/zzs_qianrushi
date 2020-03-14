@@ -20,27 +20,12 @@
 #include "vision.h"
 void StartTask07(void const * argument)
 {
-	memset(&s_fps, 0, sizeof(s_fps_t));
-	memset(&s_sys_err, 0, sizeof(s_sys_err_t));
   for(;;)
   {
-		static uint8_t count;
-		if(count++ > 35)
-		{
-			if(s_infantry.state != INFANTRY_INITIALIZING)
-			{
-				calculate_fps_per_second(200, &s_fps);
-				judge_whether_module_offline(s_fps,&s_sys_err);
-				//show_fps_data();
-				memset(&s_fps, 0, sizeof(s_fps_t));
-			}
-			count = 0;
-		}
 	  send_data_to_nuc(20);
 		printf_debug_data(4);
-    osDelay(5);
+    osDelay(50);
   }
-
 }
 /**
  * @brief printf the data you need for debug

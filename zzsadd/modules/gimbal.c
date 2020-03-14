@@ -77,9 +77,15 @@ void switch_gimbal_mode(uint8_t *gimbal_mode,\
 	if(GIMBAL_LOCK_SW)
 	{
 		if(*gimbal_mode==G_LOCK)
+		{
 			*gimbal_mode = G_MANUAL;
+			g_chassis_move_mode = C_FOLLOW;
+		}	
 		else
+		{
 			*gimbal_mode = G_LOCK;
+			g_chassis_move_mode = C_LOCK;
+		}		
 	}
 	
   if(vision_state == V_CATCH &&\

@@ -73,15 +73,12 @@ void get_key_state(e_kb_state_t *key_state,\
 /*************** key funtion define************/
 //      direction  key
 #define FORWARD_NORMAL    	 (RC_Ctl.key.bit.W)
-#define FORWARD_SLOWLY    	 (RC_Ctl.key.bit.Q)
 #define FORWARD_VERY_SLOWLY  (RC_Ctl.key.bit.E)
 #define BACK        				 (RC_Ctl.key.bit.S)
 #define LEFT       					 (RC_Ctl.key.bit.A)
 #define RIGHT      					 (RC_Ctl.key.bit.D)
-#define LEFT_SLOWLY					 (RC_Ctl.key.bit.Z)
-#define RIGHT_SLOWLY				 (RC_Ctl.key.bit.X)
 //      speed      key
-#define FAST_SPD   					 (RC_Ctl.key.bit.SHIFT)
+#define FAST_SPD   					 (RC_Ctl.key.bit.Q)
 
 //      function   key or mouse operate	
 #define OPEN_MAGAZINE				 (RC_Ctl.key.bit.R)

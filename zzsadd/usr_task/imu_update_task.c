@@ -14,5 +14,4 @@ void StartTask05(void const * argument)
 		taskEXIT_CRITICAL();
     osDelayUntil(&task_start_time,2);
   }
-
 }

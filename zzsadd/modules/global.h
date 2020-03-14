@@ -8,7 +8,7 @@
 /***************** for robot *****************/
 #define ROBOT_ID  1
 /************ rc and key constant **********************/
-#define MOVE_WSCONST  8200
+#define MOVE_WSCONST  8000
 #define MOVE_ADCONST  6000
 #define SHIFT_WSCONST 5000
 #define SHIFT_ADCONST 3000
@@ -69,7 +69,7 @@ extern s_judgesystem_t  s_judge;
 #define	 C_ROTATE              1
 #define  C_SWING               2
 #define	 C_LOCK                3
-#define  C_NORMAL              4
+#define  C_NO_CAP              4
 #define	 C_USE_CAP             5
 extern uint8_t g_chassis_move_mode ;
 extern uint8_t g_chassis_power_mode ;
