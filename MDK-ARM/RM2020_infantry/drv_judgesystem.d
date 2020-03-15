@@ -42,7 +42,10 @@
 .\rm2020_infantry\drv_judgesystem.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 .\rm2020_infantry\drv_judgesystem.o: ..\zzsadd\bsp\drv_can.h
 .\rm2020_infantry\drv_judgesystem.o: ..\zzsadd\modules\global.h
-.\rm2020_infantry\drv_judgesystem.o: ..\zzsadd\bsp\drv_dbus.h
+.\rm2020_infantry\drv_judgesystem.o: ..\zzsadd\debug\key.h
+.\rm2020_infantry\drv_judgesystem.o: ..\zzsadd\debug\config.h
+.\rm2020_infantry\drv_judgesystem.o: ..\zzsadd\debug\periphetal.h
+.\rm2020_infantry\drv_judgesystem.o: ..\zzsadd\debug\parameter.h
 .\rm2020_infantry\drv_judgesystem.o: ../Inc/can.h
 .\rm2020_infantry\drv_judgesystem.o: ../Inc/main.h
 .\rm2020_infantry\drv_judgesystem.o: D:\program files\keil5\ARM\ARMCC\Bin\..\include\string.h

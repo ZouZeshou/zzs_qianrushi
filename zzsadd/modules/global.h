@@ -2,26 +2,9 @@
 #define __GLOBAL_H
 #include "stm32f4xx.h"
 #include "stdint.h"
-#include "drv_dbus.h"
-/***************** debug *********************/
-#define NO_JUDGE_SYSTEM 1
-/***************** for robot *****************/
-#define ROBOT_ID  1
-/************ rc and key constant **********************/
-#define MOVE_WSCONST  8000
-#define MOVE_ADCONST  6000
-#define SHIFT_WSCONST 5000
-#define SHIFT_ADCONST 3000
-#define Q_WSCONST     5000
-#define Q_ADCONST     3000
-#define E_WSCONST 	  3000
-#define E_ADCONST     2000
-#define CHANNEL_X_CONST 12.12f
-#define CHANNEL_Y_CONST 12.12f
-#define CHANNEL_YAW_CONST -0.048f
-#define CHANNEL_PITCH_CONST -0.012f
-#define MOUSE_YAW_CONST -0.8f
-#define MOUSE_PITCH_CONST -0.2f
+#include "key.h"
+#include "periphetal.h"
+#include "parameter.h"
 /*****************global struct*******************/
 typedef struct 
 {
@@ -62,9 +45,6 @@ typedef struct
 }s_judgesystem_t;
 extern s_judgesystem_t  s_judge;
 /*****definition of chassis*******************/
-#define  CHASSIS_MAX_SPEED     8000
-#define  SCALE_V_W             0.35f 
-#define  ROTATE_SPD            5000
 #define	 C_FOLLOW              0
 #define	 C_ROTATE              1
 #define  C_SWING               2
@@ -74,9 +54,6 @@ extern s_judgesystem_t  s_judge;
 extern uint8_t g_chassis_move_mode ;
 extern uint8_t g_chassis_power_mode ;
 /*****definition of gimbal ********************/
-#define YAWMID                   2700
-#define PITCHMID                 7500
-#define ENCODER_SPD_TO_DPS       5.7608f
 #define	G_MANUAL                 0
 #define	G_AUTO									 1
 #define G_LOCK                   2
@@ -85,12 +62,6 @@ extern uint8_t g_chassis_power_mode ;
 extern uint8_t g_gimbal_move_mode ;
 extern uint8_t g_gimbal_info_src ;
 /*****definition of shoot ********************/
-#define ANGLE_ENCODE            22.7527778f
-#define TRAVEL                  29487.6f//8191*36/10
-#define ENCODE_ANGLE            0.0439506f //360/8191
-#define RPM_DPS                 6 //1/60*360
-#define ANGLE_RAD               0.0174532f //3.1415926/180
-#define RAD_ANGLE               57.29578f
 #define S_MANUAL  							0
 #define	S_AUTO 									1
 #define S_CLEAR_BULLETS         2

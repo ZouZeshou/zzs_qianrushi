@@ -13,7 +13,7 @@ RC_Ctl_t RC_Ctl = {0};
 /**
  * @brief Receive data from remote device
  * @param *s_rc-- the remote data
- * @return *Usart1buff --the data Usart1buff address from uart
+ * @return *dbus_buffer --the data dbus_buffer address from uart
  * @attention  None
  */
 void dubs_data_init(void)
@@ -29,7 +29,7 @@ void dubs_data_init(void)
 /**
  * @brief Receive data from remote device
  * @param *s_rc-- the remote data
- * @return *Usart1buff --the data buff address from uart
+ * @return *dbus_buffer --the data buff address from uart
  * @attention  None
  */
 void get_dbus_data (void)
@@ -37,20 +37,20 @@ void get_dbus_data (void)
 	static uint16_t cnt_l = 0;
 	static int16_t last_mouse_y = 0;
 	s_fps.dbus++;
-	if(Usart1buff[12] < 0x02 && Usart1buff[13] < 0x02)
+	if(dbus_buffer[12] < 0x02 && dbus_buffer[13] < 0x02)
 	{
-		RC_Ctl.rc.ch0 = (Usart1buff[0]| (Usart1buff[1] << 8)) & 0x07ff; //!< Channel 0
-		RC_Ctl.rc.ch1 = ((Usart1buff[1] >> 3) | (Usart1buff[2] << 5)) & 0x07ff; //!< Channel 1
-		RC_Ctl.rc.ch2 = ((Usart1buff[2] >> 6) | (Usart1buff[3] << 2) | (Usart1buff[4] << 10)) & 0x07ff;//!< Channel 2
-		RC_Ctl.rc.ch3 = ((Usart1buff[4] >> 1) | (Usart1buff[5] << 7)) & 0x07ff; //!< Channel 3
-		RC_Ctl.rc.s1 = ((Usart1buff[5] >> 4)& 0x000C) >> 2; //!< Switch left
-		RC_Ctl.rc.s2 = ((Usart1buff[5] >> 4)& 0x0003); //!< Switch right9 / 9
-		RC_Ctl.mouse.x = Usart1buff[6] | (Usart1buff[7] << 8); //!< Mouse X axis
-		RC_Ctl.mouse.y = Usart1buff[8] | (Usart1buff[9] << 8); //!< Mouse Y axis
-		RC_Ctl.mouse.z = Usart1buff[10] | (Usart1buff[11] << 8); //!< Mouse Z axis
-		RC_Ctl.mouse.l = Usart1buff[12]; //!< Mouse Left Is Press ?
-		RC_Ctl.mouse.r = Usart1buff[13]; //!< Mouse Right Is Press ?
-		RC_Ctl.key.v = Usart1buff[14] | (Usart1buff[15] << 8); //!< KeyBoard value
+		RC_Ctl.rc.ch0 = (dbus_buffer[0]| (dbus_buffer[1] << 8)) & 0x07ff; //!< Channel 0
+		RC_Ctl.rc.ch1 = ((dbus_buffer[1] >> 3) | (dbus_buffer[2] << 5)) & 0x07ff; //!< Channel 1
+		RC_Ctl.rc.ch2 = ((dbus_buffer[2] >> 6) | (dbus_buffer[3] << 2) | (dbus_buffer[4] << 10)) & 0x07ff;//!< Channel 2
+		RC_Ctl.rc.ch3 = ((dbus_buffer[4] >> 1) | (dbus_buffer[5] << 7)) & 0x07ff; //!< Channel 3
+		RC_Ctl.rc.s1 = ((dbus_buffer[5] >> 4)& 0x000C) >> 2; //!< Switch left
+		RC_Ctl.rc.s2 = ((dbus_buffer[5] >> 4)& 0x0003); //!< Switch right9 / 9
+		RC_Ctl.mouse.x = dbus_buffer[6] | (dbus_buffer[7] << 8); //!< Mouse X axis
+		RC_Ctl.mouse.y = dbus_buffer[8] | (dbus_buffer[9] << 8); //!< Mouse Y axis
+		RC_Ctl.mouse.z = dbus_buffer[10] | (dbus_buffer[11] << 8); //!< Mouse Z axis
+		RC_Ctl.mouse.l = dbus_buffer[12]; //!< Mouse Left Is Press ?
+		RC_Ctl.mouse.r = dbus_buffer[13]; //!< Mouse Right Is Press ?
+		RC_Ctl.key.v = dbus_buffer[14] | (dbus_buffer[15] << 8); //!< KeyBoard value
 		RC_Ctl.rc.ch0 = (abs(RC_Ctl.rc.ch0 - 1024) > 10 ? RC_Ctl.rc.ch0 : 1024);
 		RC_Ctl.rc.ch1 = (abs(RC_Ctl.rc.ch1 - 1024) > 10 ? RC_Ctl.rc.ch1 : 1024);
 		RC_Ctl.rc.ch2 = (abs(RC_Ctl.rc.ch2 - 1024) > 10 ? RC_Ctl.rc.ch2 : 1024);

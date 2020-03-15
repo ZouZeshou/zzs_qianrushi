@@ -41,10 +41,14 @@
 .\rm2020_infantry\gimbal.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 .\rm2020_infantry\gimbal.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 .\rm2020_infantry\gimbal.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-.\rm2020_infantry\gimbal.o: ..\zzsadd\bsp\drv_dbus.h
+.\rm2020_infantry\gimbal.o: ..\zzsadd\debug\key.h
+.\rm2020_infantry\gimbal.o: ..\zzsadd\debug\config.h
+.\rm2020_infantry\gimbal.o: ..\zzsadd\debug\periphetal.h
+.\rm2020_infantry\gimbal.o: ..\zzsadd\debug\parameter.h
 .\rm2020_infantry\gimbal.o: ..\zzsadd\algorithm\pid.h
 .\rm2020_infantry\gimbal.o: ..\zzsadd\Personal\STMGood.h
 .\rm2020_infantry\gimbal.o: ..\zzsadd\bsp\drv_keyboard.h
+.\rm2020_infantry\gimbal.o: ..\zzsadd\bsp\drv_dbus.h
 .\rm2020_infantry\gimbal.o: ..\zzsadd\bsp\drv_can.h
 .\rm2020_infantry\gimbal.o: ../Inc/can.h
 .\rm2020_infantry\gimbal.o: ../Inc/main.h

@@ -7,8 +7,6 @@
 #include "stdlib.h"
 #include "drv_can.h"
 #include "drv_judgesystem.h"
-/******************debug*******************/
-#define NO_POWER_LIMIT         1//解除功率限制
 /***********definition of struct and enum*****/
 uint8_t g_chassis_move_mode = C_LOCK;
 uint8_t g_chassis_power_mode = C_NO_CAP;
@@ -22,9 +20,6 @@ ramp_t s_ramp_Vx = RAMP_FAST_INIT;
 ramp_t s_ramp_Vy = RAMP_FAST_INIT;
 ramp_t s_ramp_channelx = RAMP_FAST_INIT;
 ramp_t s_ramp_channely = RAMP_FAST_INIT;
-int chassis_wheel_pid_debug = 0;
-int chassis_follow_pid_debug = 0;
-int chassis_swing_pid_debug = 0;
 /**
  * @brief initialize the parameter of chassis
  * @param None
@@ -68,19 +63,19 @@ void chassis_param_init(void)
  */
 void chassis_pid_param_reset(void)
 {
-	if(chassis_wheel_pid_debug)
+	if(CHASSIS_WHEEL_PID_DEBUG)
 	{
 		pid_struct_init(&s_chassis_spd_pid[0],10000,4000,P,I,D);
 		pid_struct_init(&s_chassis_spd_pid[1],10000,4000,P,I,D);
 		pid_struct_init(&s_chassis_spd_pid[2],10000,4000,P,I,D);
 		pid_struct_init(&s_chassis_spd_pid[3],10000,4000,P,I,D);
 	}
-	if(chassis_follow_pid_debug)
+	if(CHASSIS_FOLLOW_PID_DEBUG)
 	{
 		pid_struct_init(&s_follow_pos_pid,1600,0,P,I,D);
 		pid_struct_init(&s_follow_spd_pid,8000,3000,p,i,d);
 	}
-	if(chassis_swing_pid_debug)
+	if(CHASSIS_SWING_PID_DEBUG)
 	{
 		pid_struct_init(&s_swing_pid,7000,3000,P,I,D);
 	}
@@ -101,7 +96,7 @@ void switch_chassis_mode(uint8_t *chassis_mode,\
 	static int chas_mode_sw = 0;
 		/***** deal the angle to -180 to +180 
 	       the angle = chassis - gimbal(CCW is positive)*****/ 
-	s_chas->angle_diff = (YAWMID - s_yaw.back_position)*ENCODE_ANGLE;
+	s_chas->angle_diff = (s_yaw.mid_pos - s_yaw.back_position)*ENCODE_ANGLE;
 	s_chas->angle_diff = loop_float_constrain(s_chas->angle_diff, -180.0f, 180.0f);
 	/****** switch the mode from keyboard**********/ 
 	if(CHASSIS__GYRO_SW&&(*chassis_mode != C_LOCK))
@@ -133,7 +128,7 @@ void switch_chassis_mode(uint8_t *chassis_mode,\
 void get_spd_from_keyboard(RC_Ctl_t s_rc,s_chassis_t *s_chas)
 {
 	int16_t Vx_add_spd = 0;
-	int16_t Vy_add_spd = 4000;
+	int16_t Vy_add_spd = MOVE_ADCONST;
 	if(abs(s_rc.rc.ch1-1024) < 10 && abs(s_rc.rc.ch0-1024) < 10)
 	{
 		ramp_init(&s_ramp_channelx);
@@ -143,8 +138,8 @@ void get_spd_from_keyboard(RC_Ctl_t s_rc,s_chassis_t *s_chas)
 	}
 	else
 	{
-		s_chas->gim_Vx = (s_rc.rc.ch1-1024)*CHANNEL_X_CONST * ramp_cal(&s_ramp_channelx);
-		s_chas->gim_Vy = (s_rc.rc.ch0-1024)*CHANNEL_Y_CONST * ramp_cal(&s_ramp_channely);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       s_chas->gim_Vy = (s_rc.rc.ch0-1024)*CHANNEL_Y_CONST * ramp_cal(&s_ramp_channely);
+		s_chas->gim_Vx = (s_rc.rc.ch1-1024)*CHANNEL_CONST * ramp_cal(&s_ramp_channelx);
+		s_chas->gim_Vy = (s_rc.rc.ch0-1024)*CHANNEL_CONST * ramp_cal(&s_ramp_channely);
 	}	
 	/************** choose the move speed constant**************/
 	if(FORWARD_VERY_SLOWLY)

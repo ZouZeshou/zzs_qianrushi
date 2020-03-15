@@ -20,14 +20,6 @@
 #include "global.h"
 #include "drv_uart.h"
 #include "usr_math.h"
-
-#if ROBOT_ID == 1
-	#define FRAMEDIFF_TO_SPD 3.0f
-#elif ROBOT_ID == 2
-	#define FRAMEDIFF_TO_SPD 3.0f
-#elif ROBOT_ID == 2
-	#define FRAMEDIFF_TO_SPD 3.0f
-#endif
 s_vision_t s_vision_info;
 uint8_t vision_data_buff[23];	
 /**

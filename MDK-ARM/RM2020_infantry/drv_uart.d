@@ -47,3 +47,8 @@
 .\rm2020_infantry\drv_uart.o: ..\zzsadd\bsp\drv_dbus.h
 .\rm2020_infantry\drv_uart.o: ..\zzsadd\bsp\drv_nuc_interface.h
 .\rm2020_infantry\drv_uart.o: ..\zzsadd\algorithm\kalman_filter.h
+.\rm2020_infantry\drv_uart.o: ..\zzsadd\modules\global.h
+.\rm2020_infantry\drv_uart.o: ..\zzsadd\debug\key.h
+.\rm2020_infantry\drv_uart.o: ..\zzsadd\debug\config.h
+.\rm2020_infantry\drv_uart.o: ..\zzsadd\debug\periphetal.h
+.\rm2020_infantry\drv_uart.o: ..\zzsadd\debug\parameter.h

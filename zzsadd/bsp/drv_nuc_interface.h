@@ -12,7 +12,6 @@ typedef union{
 	unsigned char uc[4];
 }int16uchar;
 
-//#define USE_PC_PREDICT_SPD
 typedef struct 
 {
 	 float    Yaw_err;

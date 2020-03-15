@@ -44,7 +44,10 @@
 .\rm2020_infantry\mahony_ahrs.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 .\rm2020_infantry\mahony_ahrs.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 .\rm2020_infantry\mahony_ahrs.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-.\rm2020_infantry\mahony_ahrs.o: ..\zzsadd\bsp\drv_dbus.h
+.\rm2020_infantry\mahony_ahrs.o: ..\zzsadd\debug\key.h
+.\rm2020_infantry\mahony_ahrs.o: ..\zzsadd\debug\config.h
+.\rm2020_infantry\mahony_ahrs.o: ..\zzsadd\debug\periphetal.h
+.\rm2020_infantry\mahony_ahrs.o: ..\zzsadd\debug\parameter.h
 .\rm2020_infantry\mahony_ahrs.o: ..\zzsadd\algorithm\pid.h
 .\rm2020_infantry\mahony_ahrs.o: ..\zzsadd\usr_task\monitor_task.h
 .\rm2020_infantry\mahony_ahrs.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h

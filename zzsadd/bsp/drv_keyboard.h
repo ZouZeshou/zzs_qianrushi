@@ -2,17 +2,10 @@
 #define __KEYBOARD_H
 #include "global.h"
 #include "drv_dbus.h"
-
-#define Q_X 0
-#define Q_Y 5000
-#define E_X 0
-#define E_Y 2000
-#define SHIFT_X 5000
-#define SHIFT_Y 3000
-#define MOVE_X 6000
-#define MOVE_Y 8000
-
-
+/**********************************************************************************
+ * bit      :15   14   13   12   11   10   9   8   7   6     5     4   3   2   1
+ * keyboard : V    C    X	  Z    G    F    R   E   Q  CTRL  SHIFT  D   A   S   W
+ **********************************************************************************/
 typedef enum
 {
   KEY_RELEASE = 0,
@@ -70,29 +63,5 @@ void get_key_state(e_kb_state_t *key_state,\
 									 uint8_t key_value,\
 									 uint16_t *cnt,\
 									 uint16_t long_time);
-/*************** key funtion define************/
-//      direction  key
-#define FORWARD_NORMAL    	 (RC_Ctl.key.bit.W)
-#define FORWARD_VERY_SLOWLY  (RC_Ctl.key.bit.E)
-#define BACK        				 (RC_Ctl.key.bit.S)
-#define LEFT       					 (RC_Ctl.key.bit.A)
-#define RIGHT      					 (RC_Ctl.key.bit.D)
-//      speed      key
-#define FAST_SPD   					 (RC_Ctl.key.bit.Q)
 
-//      function   key or mouse operate	
-#define OPEN_MAGAZINE				 (RC_Ctl.key.bit.R)
-#define CLOSE_MAGAZINE       (RC_Ctl.key.bit.SHIFT && RC_Ctl.key.bit.R)
-#define	SHIFT_CTRL	   			 (RC_Ctl.key.bit.SHIFT)
-#define MANUAL_ATTACK				 (RC_Ctl.mouse.r)
-#define MANUAL_SHOOT				 (RC_Ctl.mouse.l_press)
-#define ROBOT_ATTACK         (RC_Ctl.key.bit.Z)
-#define SMALL_FAN_ATTACK		 (RC_Ctl.key.bit.X)
-#define BIG_FAN_ATTACK       (RC_Ctl.key.bit.C)
-#define GIMBAL_LOCK_SW       (s_keymouse.F_state == KEY_PRESS_ONCE)
-#define CHASSIS__GYRO_SW     (s_keymouse.V_state == KEY_PRESS_ONCE) 
-/**********************************************************************************
- * bit      :15   14   13   12   11   10   9   8   7   6     5     4   3   2   1
- * keyboard : V    C    X	  Z    G    F    R   E   Q  CTRL  SHIFT  D   A   S   W
- **********************************************************************************/
 #endif

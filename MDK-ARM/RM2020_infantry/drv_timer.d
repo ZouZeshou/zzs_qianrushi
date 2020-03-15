@@ -43,4 +43,7 @@
 .\rm2020_infantry\drv_timer.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 .\rm2020_infantry\drv_timer.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 .\rm2020_infantry\drv_timer.o: ..\zzsadd\modules\global.h
-.\rm2020_infantry\drv_timer.o: ..\zzsadd\bsp\drv_dbus.h
+.\rm2020_infantry\drv_timer.o: ..\zzsadd\debug\key.h
+.\rm2020_infantry\drv_timer.o: ..\zzsadd\debug\config.h
+.\rm2020_infantry\drv_timer.o: ..\zzsadd\debug\periphetal.h
+.\rm2020_infantry\drv_timer.o: ..\zzsadd\debug\parameter.h

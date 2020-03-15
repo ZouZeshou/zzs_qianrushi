@@ -269,7 +269,7 @@ void CAN1_RX0_IRQHandler(void)
 void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQn 0 */
-	USART1_IDLE_IRQ();
+	DBUS_IDLE_IRQ();
 #ifdef USART1IRQUSE
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
@@ -303,7 +303,6 @@ void USART3_IRQHandler(void)
   HAL_UART_IRQHandler(&huart3);
   /* USER CODE BEGIN USART3_IRQn 1 */
 #endif
-	USART3_IDLE_IRQ();
   /* USER CODE END USART3_IRQn 1 */
 }
 
@@ -416,7 +415,6 @@ void USART6_IRQHandler(void)
   HAL_UART_IRQHandler(&huart6);
   /* USER CODE BEGIN USART6_IRQn 1 */
 #endif
-	USART6_IDLE_IRQ();
   /* USER CODE END USART6_IRQn 1 */
 }
 
@@ -426,7 +424,7 @@ void USART6_IRQHandler(void)
 void UART7_IRQHandler(void)
 {
   /* USER CODE BEGIN UART7_IRQn 0 */
-	USART7_IDLE_IRQ();
+	VISION_IDLE_IRQ();
 #ifdef UART7IRQUSE
   /* USER CODE END UART7_IRQn 0 */
   HAL_UART_IRQHandler(&huart7);

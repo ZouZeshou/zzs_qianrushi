@@ -1,13 +1,10 @@
 #include "drv_uart.h"
 #include "drv_dbus.h"
 #include "drv_nuc_interface.h"
-uint8_t Usart1buff[30]={0};
-uint8_t Usart2buff[30]={0};
-uint8_t Usart3buff[30]={0};
-uint8_t Uart4buff[30]={0};
-uint8_t Usart6buff[30]={0};
-uint8_t Uart7buff[30]={0};
-uint8_t Uart8buff[30]={0};
+#include "global.h"
+uint8_t dbus_buffer[30]={0};
+uint8_t debug_buffer[30]={0};
+uint8_t vision_buffer[30]={0};
 uint8_t dbus_decode_flag = 0;
 uint8_t vision_decode_flag = 0;
 uint8_t debug_decode_flag = 0;
@@ -45,66 +42,35 @@ void USART_DMA_Enable(UART_HandleTypeDef *huart,DMA_HandleTypeDef *hdma,uint8_t 
 	 __HAL_UART_ENABLE_IT(huart,UART_IT_ERR);								/*!<Enable Usart Error IT      	*/
 }
 /**
- * @brief Interrupt function for usart1
+ * @brief Interrupt function for dbus
  * @param None
  * @return None
  * @attention None
  */
-void USART1_IDLE_IRQ(void)
+void DBUS_IDLE_IRQ(void)
 {	
-	if(__HAL_UART_GET_FLAG(&huart1,UART_FLAG_IDLE) != RESET)
+	if(__HAL_UART_GET_FLAG(&DBUS_HANDLE,UART_FLAG_IDLE) != RESET)
 	{
-			__HAL_UART_CLEAR_IDLEFLAG(&huart1);	//清除标志位和SR，DR寄存器
+			__HAL_UART_CLEAR_IDLEFLAG(&DBUS_HANDLE);	//清除标志位和SR，DR寄存器
 			get_dbus_data();
-		  HAL_UART_DMAStop(&huart1);
-			HAL_UART_Receive_DMA(&huart1,Usart1buff,18);//函数中包括重新配置DMA
+		  HAL_UART_DMAStop(&DBUS_HANDLE);
+			HAL_UART_Receive_DMA(&DBUS_HANDLE,dbus_buffer,DBUS_LENGTH);//函数中包括重新配置DMA
 	}
 }
 /**
- * @brief Interrupt function for usart1
+ * @brief Interrupt function for vision
  * @param None
  * @return None
  * @attention None
  */
-void USART3_IDLE_IRQ(void)
+void VISION_IDLE_IRQ(void)
 {
-	if(__HAL_UART_GET_FLAG(&huart3,UART_FLAG_IDLE) != RESET)
+	if(__HAL_UART_GET_FLAG(&VISION_HANDLE,UART_FLAG_IDLE) != RESET)
 	{
-			__HAL_UART_CLEAR_IDLEFLAG(&huart3);	//清除标志位和SR，DR寄存器
-			HAL_UART_DMAStop(&huart3);
-			HAL_UART_Receive_DMA(&huart3,Usart3buff,23);//函数中包括重新配置DMA
-	}
-}
-/**
- * @brief Interrupt function for usart1
- * @param None
- * @return None
- * @attention None
- */
-void USART6_IDLE_IRQ(void)
-{
-	
-	if(__HAL_UART_GET_FLAG(&huart6,UART_FLAG_IDLE) != RESET)
-	{
-			__HAL_UART_CLEAR_IDLEFLAG(&huart6);	//清除标志位和SR，DR寄存器
-			HAL_UART_DMAStop(&huart6);
-			HAL_UART_Receive_DMA(&huart6,Usart6buff,23);//函数中包括重新配置DMA
-	}
-}
-/**
- * @brief Interrupt function for usart1
- * @param None
- * @return None
- * @attention None
- */
-void USART7_IDLE_IRQ(void)
-{
-	if(__HAL_UART_GET_FLAG(&huart7,UART_FLAG_IDLE) != RESET)
-	{
-			__HAL_UART_CLEAR_IDLEFLAG(&huart7);	//清除标志位和SR，DR寄存器
-			vision_decode_handle(Uart7buff);
-			HAL_UART_DMAStop(&huart7);
-			HAL_UART_Receive_DMA(&huart7,Uart7buff,23);//函数中包括重新配置DMA
+			__HAL_UART_CLEAR_IDLEFLAG(&VISION_HANDLE);	//清除标志位和SR，DR寄存器
+			vision_decode_handle(vision_buffer);
+			HAL_UART_DMAStop(&VISION_HANDLE);
+			HAL_UART_Receive_DMA(&VISION_HANDLE,vision_buffer,VISION_LENGTH);//函数中包括重新配置DMA
 	}
   
 }
@@ -129,8 +95,8 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
  */
 int fputc(int ch, FILE *f)
 { 	
-	while((USART2->SR&0X40)==0); 
-	USART2->DR = (uint8_t) ch;      
+	while((DEBUG_URAT->SR&0X40)==0); 
+	DEBUG_URAT->DR = (uint8_t) ch;      
 	return ch;
 }
 
@@ -142,18 +108,15 @@ int fputc(int ch, FILE *f)
  */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-	if(huart->Instance == USART2)
+	if(huart->Instance == DEBUG_URAT)
 	{
-		Dealdata(Usart2buff[0]);
-		__HAL_UART_CLEAR_PEFLAG(&huart2);//清除中断标志位
-		HAL_UART_Receive_IT(&huart2,Usart2buff,1);//使能串口2
+		Dealdata(debug_buffer[0]);
+		__HAL_UART_CLEAR_PEFLAG(&DEBUG_HANDLE);//清除中断标志位
+		HAL_UART_Receive_IT(&DEBUG_HANDLE,debug_buffer,DEBUG_LENGTH);//使能串口2
 	}
 	else
 	{
-//		printf("uart7 work\r\n");
-//		vision_decode_flag = 1;
-//		__HAL_UART_CLEAR_PEFLAG(&huart7);//清除中断标志位
-//		HAL_UART_Receive_IT(&huart7,Usart2buff,23);//使能串口2
+
 	}
 }
 /**

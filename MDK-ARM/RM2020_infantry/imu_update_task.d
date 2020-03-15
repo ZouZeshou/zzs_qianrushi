@@ -59,3 +59,8 @@
 .\rm2020_infantry\imu_update_task.o: ..\zzsadd\Imu\ahrs.h
 .\rm2020_infantry\imu_update_task.o: ..\zzsadd\Imu\AHRS_MiddleWare.h
 .\rm2020_infantry\imu_update_task.o: ..\zzsadd\Personal\delay.h
+.\rm2020_infantry\imu_update_task.o: ..\zzsadd\modules\global.h
+.\rm2020_infantry\imu_update_task.o: ..\zzsadd\debug\key.h
+.\rm2020_infantry\imu_update_task.o: ..\zzsadd\debug\config.h
+.\rm2020_infantry\imu_update_task.o: ..\zzsadd\debug\periphetal.h
+.\rm2020_infantry\imu_update_task.o: ..\zzsadd\debug\parameter.h

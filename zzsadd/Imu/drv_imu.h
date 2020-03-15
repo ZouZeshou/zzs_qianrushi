@@ -27,8 +27,8 @@
 #include "stm32f4xx_hal.h"
 #include "ahrs.h"
 #include "delay.h"
+#include "global.h"
 #define MPU_IO_PROBE() //HAL_GPIO_TogglePin(IO_PROBE_GPIO_Port, IO_PROBE_Pin);
-#define DEFAULT_IMU_TEMP  50
 //#define MPU_DELAY(x)  xdelay_ms(x)
 
 #define MPU_HSPI hspi5

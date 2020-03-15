@@ -6,15 +6,6 @@
 #include "shoot.h"
 #include "drv_can.h"
 #include "iwdg.h"
-#define LONG_PRESS_TIME  			 1000
-#if ROBOT_ID == 1
-#define TRANS_COMP_CONST 0.09f
-#elif  ROBOT_ID == 2
-#define TRANS_COMP_CONST 0.09f
-#elif  ROBOT_ID == 3
-#define TRANS_COMP_CONST 0.09f
-#endif
-
 void StartTask02(void const * argument)
 {
 	portTickType task_start_time;

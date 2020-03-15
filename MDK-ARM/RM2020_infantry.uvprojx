@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER, STM32F427xx ARM_MATH_CM4 STM32F427xx,STM32F427xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;               ../Drivers/STM32F4xx_HAL_Driver/Inc;               ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;               ../Middlewares/Third_Party/FreeRTOS/Source/include;               ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;               ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;               ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;               ../Drivers/CMSIS/Include;               ..\zzsadd\algorithm;               ..\zzsadd\bsp;               ..\zzsadd\DSP;               ..\zzsadd\Imu;               ..\zzsadd\modules;               ..\zzsadd\Personal;               ..\zzsadd\usr_task;               ..\zzsadd\DSP\Include</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\zzsadd\algorithm;..\zzsadd\bsp;..\zzsadd\DSP;..\zzsadd\Imu;..\zzsadd\modules;..\zzsadd\Personal;..\zzsadd\usr_task;..\zzsadd\DSP\Include;..\zzsadd\debug</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1043,16 +1043,6 @@
               <FilePath>..\zzsadd\usr_task\debug_printf_task.c</FilePath>
             </File>
             <File>
-              <FileName>calibrate_task.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\zzsadd\usr_task\calibrate_task.c</FilePath>
-            </File>
-            <File>
-              <FileName>calibrate_task.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\zzsadd\usr_task\calibrate_task.h</FilePath>
-            </File>
-            <File>
               <FileName>chassis_task.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\zzsadd\usr_task\chassis_task.h</FilePath>
@@ -1081,6 +1071,31 @@
               <FileName>Shoot_task.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\zzsadd\usr_task\Shoot_task.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>debug</GroupName>
+          <Files>
+            <File>
+              <FileName>config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\debug\config.h</FilePath>
+            </File>
+            <File>
+              <FileName>key.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\debug\key.h</FilePath>
+            </File>
+            <File>
+              <FileName>periphetal.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\debug\periphetal.h</FilePath>
+            </File>
+            <File>
+              <FileName>parameter.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\zzsadd\debug\parameter.h</FilePath>
             </File>
           </Files>
         </Group>

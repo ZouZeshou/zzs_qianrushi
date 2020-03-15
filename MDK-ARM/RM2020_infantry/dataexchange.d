@@ -43,13 +43,16 @@
 .\rm2020_infantry\dataexchange.o: ..\zzsadd\Imu\ahrs.h
 .\rm2020_infantry\dataexchange.o: ..\zzsadd\Imu\AHRS_MiddleWare.h
 .\rm2020_infantry\dataexchange.o: ..\zzsadd\Personal\delay.h
+.\rm2020_infantry\dataexchange.o: ..\zzsadd\modules\global.h
+.\rm2020_infantry\dataexchange.o: ..\zzsadd\debug\key.h
+.\rm2020_infantry\dataexchange.o: ..\zzsadd\debug\config.h
+.\rm2020_infantry\dataexchange.o: ..\zzsadd\debug\periphetal.h
+.\rm2020_infantry\dataexchange.o: ..\zzsadd\debug\parameter.h
 .\rm2020_infantry\dataexchange.o: ..\zzsadd\DSP\Include\arm_math.h
 .\rm2020_infantry\dataexchange.o: ../Drivers/CMSIS/Include/core_cm4.h
 .\rm2020_infantry\dataexchange.o: D:\program files\keil5\ARM\ARMCC\Bin\..\include\string.h
 .\rm2020_infantry\dataexchange.o: D:\program files\keil5\ARM\ARMCC\Bin\..\include\math.h
 .\rm2020_infantry\dataexchange.o: ..\zzsadd\modules\gimbal.h
-.\rm2020_infantry\dataexchange.o: ..\zzsadd\modules\global.h
-.\rm2020_infantry\dataexchange.o: ..\zzsadd\bsp\drv_dbus.h
 .\rm2020_infantry\dataexchange.o: ..\zzsadd\algorithm\pid.h
 .\rm2020_infantry\dataexchange.o: ..\zzsadd\usr_task\monitor_task.h
 .\rm2020_infantry\dataexchange.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h

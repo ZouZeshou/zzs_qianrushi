@@ -59,7 +59,10 @@
 .\rm2020_infantry\shoot_task.o: D:\program files\keil5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\rm2020_infantry\shoot_task.o: ..\zzsadd\modules\shoot.h
 .\rm2020_infantry\shoot_task.o: ..\zzsadd\modules\global.h
-.\rm2020_infantry\shoot_task.o: ..\zzsadd\bsp\drv_dbus.h
+.\rm2020_infantry\shoot_task.o: ..\zzsadd\debug\key.h
+.\rm2020_infantry\shoot_task.o: ..\zzsadd\debug\config.h
+.\rm2020_infantry\shoot_task.o: ..\zzsadd\debug\periphetal.h
+.\rm2020_infantry\shoot_task.o: ..\zzsadd\debug\parameter.h
 .\rm2020_infantry\shoot_task.o: ..\zzsadd\algorithm\pid.h
 .\rm2020_infantry\shoot_task.o: ..\zzsadd\bsp\drv_can.h
 .\rm2020_infantry\shoot_task.o: ../Inc/can.h

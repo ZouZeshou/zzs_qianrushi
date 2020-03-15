@@ -47,6 +47,11 @@
 .\rm2020_infantry\drv_imu.o: ..\zzsadd\Imu\ahrs.h
 .\rm2020_infantry\drv_imu.o: ..\zzsadd\Imu\AHRS_MiddleWare.h
 .\rm2020_infantry\drv_imu.o: ..\zzsadd\Personal\delay.h
+.\rm2020_infantry\drv_imu.o: ..\zzsadd\modules\global.h
+.\rm2020_infantry\drv_imu.o: ..\zzsadd\debug\key.h
+.\rm2020_infantry\drv_imu.o: ..\zzsadd\debug\config.h
+.\rm2020_infantry\drv_imu.o: ..\zzsadd\debug\periphetal.h
+.\rm2020_infantry\drv_imu.o: ..\zzsadd\debug\parameter.h
 .\rm2020_infantry\drv_imu.o: ..\zzsadd\algorithm\pid.h
 .\rm2020_infantry\drv_imu.o: ..\zzsadd\DSP\Include\arm_math.h
 .\rm2020_infantry\drv_imu.o: ../Drivers/CMSIS/Include/core_cm4.h

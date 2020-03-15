@@ -11,8 +11,6 @@
 #include "drv_timer.h"
 #include "drv_flash.h"
 #include "arm_math.h"
-/***********some const value***********/
-
 /***********definition of struct and enum*****/
 uint8_t g_shoot_mode = S_MANUAL;
 pid_t s_trans_pos_pid={0};
@@ -22,10 +20,6 @@ pid_t s_fric_r_spd_pid = {0};
 s_motor_data_t s_trans_motor = {TRANS_ID,0};
 s_motor_data_t s_fric_l_motor = {0};
 s_motor_data_t s_fric_r_motor = {0};
-/*************debug variable**************/
-int g_trans_pid_debug = 0;//debug mode or not
-int g_fric_pid_debug = 0;
-
 /**
  * @brief initialize the parameter of shoot
  * @param None
@@ -60,12 +54,12 @@ void shoot_param_init(void)
  */
 void shoot_pid_param_reset(void)
 {
-	if(g_fric_pid_debug)
+	if(FRIC_PID_DEBUG)
 	{
 		pid_struct_init(&s_fric_l_spd_pid,15000,5000,P,I,D);
 		pid_struct_init(&s_fric_r_spd_pid,15000,5000,P,I,D);
 	}
-	if(g_trans_pid_debug)
+	if(TRANS_PID_DEBUG)
 	{
 		pid_struct_init(&s_trans_pos_pid,1250,200,P,I,D);
 		pid_struct_init(&s_trans_spd_pid,10000,3000,p,i,d);

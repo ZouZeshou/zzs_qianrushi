@@ -17,9 +17,7 @@ pid_t s_pitch_pos_pid={0};
 pid_t s_pitch_spd_pid={0};
 s_motor_data_t s_yaw_motor = {YAW_ID,0};
 s_motor_data_t s_pitch_motor = {PIT_ID,0};
-/*************debug variable**************/
-int g_yaw_pid_debug = 0;//debug mode or not
-int g_pitch_pid_debug = 0;
+
 /**
  * @brief initialize the parameter of gimbal
  * @param None
@@ -50,12 +48,12 @@ void gimbal_param_init(void)
  */
 void gimbal_pid_param_reset(void)
 {
-	if(g_yaw_pid_debug)
+	if(YAW_PID_DEBUG)
 	{
 		pid_struct_init(&s_yaw_pos_pid,400,10,P,I,D);
 		pid_struct_init(&s_yaw_spd_pid,28000,20000,p,i,d);
 	}
-	if(g_pitch_pid_debug)
+	if(PITCH_PID_DEBUG)
 	{
 		pid_struct_init(&s_pitch_pos_pid,400,10,P,I,D);
 		pid_struct_init(&s_pitch_spd_pid,28000,20000,p,i,d);

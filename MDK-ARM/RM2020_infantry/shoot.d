@@ -41,10 +41,14 @@
 .\rm2020_infantry\shoot.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 .\rm2020_infantry\shoot.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 .\rm2020_infantry\shoot.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-.\rm2020_infantry\shoot.o: ..\zzsadd\bsp\drv_dbus.h
+.\rm2020_infantry\shoot.o: ..\zzsadd\debug\key.h
+.\rm2020_infantry\shoot.o: ..\zzsadd\debug\config.h
+.\rm2020_infantry\shoot.o: ..\zzsadd\debug\periphetal.h
+.\rm2020_infantry\shoot.o: ..\zzsadd\debug\parameter.h
 .\rm2020_infantry\shoot.o: ..\zzsadd\algorithm\pid.h
 .\rm2020_infantry\shoot.o: D:\program files\keil5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\rm2020_infantry\shoot.o: ..\zzsadd\bsp\drv_keyboard.h
+.\rm2020_infantry\shoot.o: ..\zzsadd\bsp\drv_dbus.h
 .\rm2020_infantry\shoot.o: ..\zzsadd\Personal\STMGood.h
 .\rm2020_infantry\shoot.o: ..\zzsadd\modules\gimbal.h
 .\rm2020_infantry\shoot.o: ..\zzsadd\bsp\drv_can.h

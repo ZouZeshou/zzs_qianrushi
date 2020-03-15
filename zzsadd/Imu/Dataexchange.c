@@ -51,10 +51,13 @@ void UpdateIMU(struct ahrs_sensor *sensor)
 	}
 	else
 	{
-  	//LFP_Filter(INS_gyro,gyro_filter,filter1,&upcount1);
-		//LFP_Filter(INS_accel,accel_filter,filter2,&upcount2);
-		//LFP_Filter(INS_mag,mag_filter,filter3,&upcount3);
-		AHRS_update(INS_quat,0.002f,INS_gyro,INS_accel,INS_mag);
+		if(USE_LPF_ACCELARATION)
+		{
+			LFP_Filter(INS_accel,accel_filter,filter2,&upcount2);
+		  AHRS_update(INS_quat,0.002f,INS_gyro,accel_filter,INS_mag);
+		}
+		else
+			AHRS_update(INS_quat,0.002f,INS_gyro,INS_accel,INS_mag);
 		get_angle(INS_quat, INS_Angle, INS_Angle + 1, INS_Angle + 2);
 	}
 	

@@ -45,9 +45,9 @@ void infantry_init(void)
 	io_init();
 	TIM_Enable();
 	/*********** uart *****************************************/
-	USART_DMA_Enable(&huart1,&hdma_usart1_rx,Usart1buff,18);
-	USART_DMA_Enable(&huart7,&hdma_uart7_rx,Uart7buff,23);
-	USART_Enable(&huart2,Usart2buff,1);
+	USART_DMA_Enable(&DBUS_HANDLE,&DBUS_DMA,dbus_buffer,DBUS_LENGTH);
+	USART_DMA_Enable(&VISION_HANDLE,&VISION_DMA,vision_buffer,VISION_LENGTH);
+	USART_Enable(&DEBUG_HANDLE,debug_buffer,DEBUG_LENGTH);
 	/***************** can ***********************************/
 	CAN_Enable(&hcan1);
 	CAN_Enable(&hcan2);

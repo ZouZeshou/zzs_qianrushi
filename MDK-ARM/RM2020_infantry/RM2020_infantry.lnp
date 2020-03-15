@@ -89,7 +89,6 @@
 ".\rm2020_infantry\imu_update_task.o"
 ".\rm2020_infantry\monitor_task.o"
 ".\rm2020_infantry\debug_printf_task.o"
-".\rm2020_infantry\calibrate_task.o"
 --library_type=microlib --nodebug --ro-base 0x08000000 --entry 0x08000000 --rw-base 0x20000000 --entry Reset_Handler --first __Vectors --strict --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "RM2020_infantry.map" -o .\RM2020_infantry\RM2020_infantry.axf

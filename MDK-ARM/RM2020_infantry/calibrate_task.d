@@ -60,6 +60,11 @@
 .\rm2020_infantry\calibrate_task.o: ..\zzsadd\Imu\ahrs.h
 .\rm2020_infantry\calibrate_task.o: ..\zzsadd\Imu\AHRS_MiddleWare.h
 .\rm2020_infantry\calibrate_task.o: ..\zzsadd\Personal\delay.h
+.\rm2020_infantry\calibrate_task.o: ..\zzsadd\modules\global.h
+.\rm2020_infantry\calibrate_task.o: ..\zzsadd\debug\key.h
+.\rm2020_infantry\calibrate_task.o: ..\zzsadd\debug\config.h
+.\rm2020_infantry\calibrate_task.o: ..\zzsadd\debug\periphetal.h
+.\rm2020_infantry\calibrate_task.o: ..\zzsadd\debug\parameter.h
 .\rm2020_infantry\calibrate_task.o: ..\zzsadd\bsp\drv_flash.h
 .\rm2020_infantry\calibrate_task.o: ..\zzsadd\modules\infantry.h
 .\rm2020_infantry\calibrate_task.o: ..\zzsadd\bsp\drv_dbus.h

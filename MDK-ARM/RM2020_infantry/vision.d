@@ -41,7 +41,10 @@
 .\rm2020_infantry\vision.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 .\rm2020_infantry\vision.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 .\rm2020_infantry\vision.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-.\rm2020_infantry\vision.o: ..\zzsadd\bsp\drv_dbus.h
+.\rm2020_infantry\vision.o: ..\zzsadd\debug\key.h
+.\rm2020_infantry\vision.o: ..\zzsadd\debug\config.h
+.\rm2020_infantry\vision.o: ..\zzsadd\debug\periphetal.h
+.\rm2020_infantry\vision.o: ..\zzsadd\debug\parameter.h
 .\rm2020_infantry\vision.o: ..\zzsadd\algorithm\pid.h
 .\rm2020_infantry\vision.o: ..\zzsadd\bsp\drv_nuc_interface.h
 .\rm2020_infantry\vision.o: ..\zzsadd\algorithm\kalman_filter.h
@@ -52,6 +55,7 @@
 .\rm2020_infantry\vision.o: ..\zzsadd\Personal\ANO_DT.h
 .\rm2020_infantry\vision.o: ..\zzsadd\bsp\drv_judgesystem.h
 .\rm2020_infantry\vision.o: ..\zzsadd\bsp\drv_keyboard.h
+.\rm2020_infantry\vision.o: ..\zzsadd\bsp\drv_dbus.h
 .\rm2020_infantry\vision.o: ..\zzsadd\modules\shoot.h
 .\rm2020_infantry\vision.o: D:\program files\keil5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\rm2020_infantry\vision.o: ..\zzsadd\modules\gimbal.h

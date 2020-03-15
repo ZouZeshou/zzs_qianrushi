@@ -28,6 +28,7 @@
 #include "iwdg.h"
 #include "stdlib.h"
 #include "drv_flash.h"
+#include "global.h"
 static int16_t gx_offset;
 static int16_t gy_offset;
 static int16_t gz_offset;
@@ -226,9 +227,9 @@ void mpu_get_data(struct ahrs_sensor *sensor)
 
   mpu_read_regs(MPU6500_ACCEL_XOUT_H, mpu_buff, 14);
 
-  mpu_data.ax = (mpu_buff[0] << 8 | mpu_buff[1]) - mpu_data.ax_offset;
-  mpu_data.ay = (mpu_buff[2] << 8 | mpu_buff[3]) - mpu_data.ay_offset;
-  mpu_data.az = (mpu_buff[4] << 8 | mpu_buff[5]) - mpu_data.az_offset;
+  mpu_data.ax = (mpu_buff[0] << 8 | mpu_buff[1]);
+  mpu_data.ay = (mpu_buff[2] << 8 | mpu_buff[3]);
+  mpu_data.az = (mpu_buff[4] << 8 | mpu_buff[5]);
   mpu_data.temp = mpu_buff[6] << 8 | mpu_buff[7];
 
   mpu_data.gx = ((mpu_buff[8] << 8 | mpu_buff[9]) - mpu_data.gx_offset);
@@ -256,14 +257,20 @@ void mpu_get_data(struct ahrs_sensor *sensor)
 	
 //	GimbalData.Pitchspeed = -mpu_data.gx / 16.384f ;
 //	GimbalData.Yawspeed = mpu_data.gz / 16.384f ;
-	
-  sensor->mx = (mpu_data.mx - mpu_data.mx_offset);
-  sensor->my = (mpu_data.my - mpu_data.my_offset);
-  sensor->mz = (mpu_data.mz - mpu_data.mz_offset);
+  if(USE_IST8310_DATA)	
+	{
+		sensor->mx = (mpu_data.mx);
+		sensor->my = (mpu_data.my);
+		sensor->mz = (mpu_data.mz);
+	}
+  else
+	{
+		sensor->mx = 0;
+		sensor->my = 0;
+		sensor->mz = 0;
+	}
 
-//	sensor->mx = 0;
-//  sensor->my = 0;
-//  sensor->mz = 0;
+
 //zzsadd
 //	Gyroscope.gx = mpu_data.gy;
 //	Gyroscope.gy = -mpu_data.gx;
@@ -324,19 +331,10 @@ uint8_t mpu_device_init(void)
 	HAL_IWDG_Refresh(&hiwdg);
 	get_mpu_gyro_offset();
 	HAL_IWDG_Refresh(&hiwdg);
-	get_mpu_acc_offset();
-	HAL_IWDG_Refresh(&hiwdg);
-	get_ist_mag_offset();
-	HAL_IWDG_Refresh(&hiwdg);
-	mpu_data.ax_offset = ax_offset;
-	mpu_data.ay_offset = ay_offset;
-	mpu_data.az_offset = az_offset;
 	mpu_data.gx_offset = gx_offset;
 	mpu_data.gy_offset = gy_offset;
 	mpu_data.gz_offset = gz_offset;
-	mpu_data.mx_offset = mx_offset;
-	mpu_data.my_offset = my_offset;
-	mpu_data.mz_offset = mz_offset;
+
 //	get_offset_from_cali();
 	printf("imu initial success\r\n");
 	//
@@ -347,7 +345,7 @@ uint8_t mpu_device_init(void)
 static void get_mpu_gyro_offset(void)
 {
   int i;
-  for (i = 0; i < 1000; i++)
+  for (i = 0; i < GET_OFFSET_TIME; i++)
   {
     mpu_read_regs(MPU6500_ACCEL_XOUT_H, mpu_buff, 14);
 
@@ -358,9 +356,9 @@ static void get_mpu_gyro_offset(void)
     HAL_Delay(2);
   }
 
-  gx_offset = gx_offset / 1000;
-  gy_offset = gy_offset / 1000;
-  gz_offset = gz_offset / 1000;
+  gx_offset = gx_offset / GET_OFFSET_TIME;
+  gy_offset = gy_offset / GET_OFFSET_TIME;
+  gz_offset = gz_offset / GET_OFFSET_TIME;
   imu_cali.gyro_flag = 0;
 }
 

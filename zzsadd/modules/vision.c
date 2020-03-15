@@ -18,30 +18,6 @@
 #include "gimbal.h"
 #include "arm_math.h"
 #include "monitor_task.h"
-#define NO_YAW_COMP         1//取消yaw补偿
-#define NO_PIT_COMP         1//取消pitch补偿
-#define NO_FAN_PIT_COMP     1//取消大符pitch补偿
-#define H1        					2169//能量机关距地面高度  		
-#define H2						      850 //击打点距地面高度			
-#define H3          				350	//步兵枪口距着地点高度
-#define FAN_DIS             7300.0f//能量机关距击打点水平距离
-#if  ROBOT_ID == 1
-#define FANWHEEL_CENTER_X   250.0f
-#define FANWHEEL_CENTER_Y		242.0f
-#define ARMOR_OFFSET_X      800.0f
-#define ARMOR_OFFSET_Y      280.0f
-#define FAN_COMP_COEF       0.01f//能量机关pitch补偿系数
-#define ROBOT_PIT_COEF      1.0f//装甲板pitch补偿系数
-#define ROBOT_YAW_COEF      0.4f//识别装甲时速度补偿系数
-#define FAN_SHOOT_ERR       1.0f//最小发弹误差
-#define ROBOT_SHOOT_YAW_ERR 2.0f//最小发弹误差
-#define ROBOT_SHOOT_PIT_ERR 1.5f//最小发弹误差
-#define ROBOT_SHOOT_SPD_ERR 150.0f//最小发弹误差
-#elif ROBOT_ID == 2
-
-#elif ROBOT_ID == 3
-
-#endif
 uint8_t g_vision_mode = V_ROBOT;
 uint8_t g_vision_state = V_ABNORMAL;
 pid_t  s_yaw_track_pid={0};
@@ -50,19 +26,10 @@ pid_t  s_yaw_fanwheel_pid={0};
 pid_t  s_pitch_fanwheel_pid={0};
 pid_t s_yaw_vision_spd_pid={0};
 pid_t s_pitch_vision_spd_pid={0};
-
-kalman1_state s_target_state_kal={0};
 kalman1_state s_framediff_x_kal={0};
 kalman1_state s_tar_abs_spd_kal={0};
 kalman1_state s_fanwheel_centerX_kal={0};
 kalman1_state s_fanwheel_centerY_kal={0};
-
-int yaw_track_pid_debug = 0;
-int pitch_track_pid_debug = 0;
-int yaw_fanwheel_pid_debug = 0;
-int pitch_fanwheel_pid_debug = 0;
-int g_yaw_vision_debug = 0;
-int g_pitch_vision_debug = 0;
 /**
  * @brief initialize the parameter of vision
  * @param None
@@ -103,27 +70,27 @@ void vision_param_init(void)
  */
 void vision_pid_pamar_reset(void)
 {
-	if(yaw_track_pid_debug)
+	if(YAW_ROBOT_PID_DEBUG)
 	{
 		pid_struct_init(&s_yaw_track_pid, 250.0f, 0.0f, P, I, D);
 	}
-	if(pitch_track_pid_debug)
+	if(PITCH_ROBOT_PID_DEBUG)
 	{
 		pid_struct_init(&s_pit_track_pid, 200.0f, 0.0f, P, I, D);
 	}
-	if(yaw_fanwheel_pid_debug)
+	if(YAW_FAN_PID_DEBUG)
 	{
 		pid_struct_init(&s_yaw_fanwheel_pid, 250.0f, 0.0f, P, I, D);
 	}
-	if(pitch_fanwheel_pid_debug)
+	if(PITCH_FAN_PID_DEBUG)
 	{
 		pid_struct_init(&s_pitch_fanwheel_pid, 200.0f, 0.0f, P, I, D);
 	}
-	if(g_yaw_vision_debug)
+	if(YAW_VISION_SPD_DEBUG)
 	{
 		pid_struct_init(&s_yaw_vision_spd_pid,28000,20000,P,I,D);
 	}
-	if(g_pitch_vision_debug)
+	if(PITCH_VISION_SPD_DEBUG)
 	{
 		pid_struct_init(&s_pitch_vision_spd_pid,28000,20000,P,I,D);
 	}

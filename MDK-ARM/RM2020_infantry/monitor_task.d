@@ -63,7 +63,10 @@
 .\rm2020_infantry\monitor_task.o: ..\zzsadd\Personal\STMGood.h
 .\rm2020_infantry\monitor_task.o: ..\zzsadd\bsp\drv_can.h
 .\rm2020_infantry\monitor_task.o: ..\zzsadd\modules\global.h
-.\rm2020_infantry\monitor_task.o: ..\zzsadd\bsp\drv_dbus.h
+.\rm2020_infantry\monitor_task.o: ..\zzsadd\debug\key.h
+.\rm2020_infantry\monitor_task.o: ..\zzsadd\debug\config.h
+.\rm2020_infantry\monitor_task.o: ..\zzsadd\debug\periphetal.h
+.\rm2020_infantry\monitor_task.o: ..\zzsadd\debug\parameter.h
 .\rm2020_infantry\monitor_task.o: ../Inc/can.h
 .\rm2020_infantry\monitor_task.o: ..\zzsadd\bsp\drv_io.h
 .\rm2020_infantry\monitor_task.o: ../Inc/tim.h
