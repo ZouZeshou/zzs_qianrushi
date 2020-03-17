@@ -13,6 +13,8 @@ typedef struct
 	uint16_t min_cur_sum;
 	float power_spd_scale;/* a constant show the relation of backspeed and power*/
 	float spd_cur_scale;/* a constant show the relation of current sum and power*/ 
+	float cap_voltage;
+	uint8_t cap_is_ok;
 }s_power_control_t;
 typedef struct
 {

@@ -46,7 +46,9 @@ void StartTask03(void const * argument)
 		else
 		{
 			Can_SendMsg(&hcan2,0x200,0,0,0,0);
-		}	
+		}
+		uint8_t cap_data[8]={WANT_USE_CAP,0,0,0,0,0,0,0};
+		Can_SendMsg_by_byte(&hcan2,0x199,cap_data);
 		taskEXIT_CRITICAL();
     osDelayUntil(&task_start_time,5);
   }

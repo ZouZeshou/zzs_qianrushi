@@ -8,10 +8,9 @@
 #define BACK        				 (RC_Ctl.key.bit.S)//后退
 #define LEFT       					 (RC_Ctl.key.bit.A)//左移
 #define RIGHT      					 (RC_Ctl.key.bit.D)//右移
-#define FAST_SPD   					 (RC_Ctl.key.bit.Q)//快速前进（暂时未使用）
 #define OPEN_MAGAZINE				 (RC_Ctl.key.bit.R)//打开弹仓
-#define CLOSE_MAGAZINE       (RC_Ctl.key.bit.SHIFT && RC_Ctl.key.bit.R)//关闭弹仓
-#define	SHIFT_CTRL	   			 (RC_Ctl.key.bit.SHIFT)
+#define CLOSE_MAGAZINE       (RC_Ctl.key.bit.CTRL && RC_Ctl.key.bit.R)//关闭弹仓
+#define	WANT_USE_CAP	   		 (RC_Ctl.key.bit.SHIFT)//使用电容放电
 #define MANUAL_ATTACK				 (RC_Ctl.mouse.r)//取消自瞄
 #define MANUAL_SHOOT				 (RC_Ctl.mouse.l_press)//开火
 #define ROBOT_ATTACK         (RC_Ctl.key.bit.Z)//视觉目标为机器人

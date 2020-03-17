@@ -99,6 +99,10 @@ void switch_chassis_mode(uint8_t *chassis_mode,\
 	s_chas->angle_diff = (s_yaw.mid_pos - s_yaw.back_position)*ENCODE_ANGLE;
 	s_chas->angle_diff = loop_float_constrain(s_chas->angle_diff, -180.0f, 180.0f);
 	/****** switch the mode from keyboard**********/ 
+	if(WANT_USE_CAP&&s_chas->power_ctrl.cap_is_ok)
+		g_chassis_power_mode = C_USE_CAP;
+	else
+		g_chassis_power_mode = C_NO_CAP;	
 	if(CHASSIS__GYRO_SW&&(*chassis_mode != C_LOCK))
 		chas_mode_sw = 1;
 	if(chas_mode_sw)

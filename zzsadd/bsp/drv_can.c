@@ -253,8 +253,8 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 				u_4data.c[1] = RxData2[1];
 				u_4data.c[2] = RxData2[2];
 				u_4data.c[3] = RxData2[3];
-				/*chassis.Cap_Volt = u_4data.f; 
-				chassis.can_use_cap = RxData2[4];*///no define now
+				s_chassis.power_ctrl.cap_voltage = u_4data.f; 
+				s_chassis.power_ctrl.cap_is_ok = RxData2[4];
 				break;
 			}
 			default:
